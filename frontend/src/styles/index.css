@@ -1,0 +1,246 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* ── Paleta KiboCode ──────────────────────────────────────────────
+     Misma escala monocromática, con pasos intermedios para poder
+     construir profundidad sin salirse del gris. */
+  --color-ink-1000: #080808; /* negro de fondo profundo */
+  --color-ink-950: #0f0f0f; /* fondo base */
+  --color-ink-900: #121212; /* fondo hero */
+  --color-ink-850: #151515; /* separación sutil entre bloques */
+  --color-ink-800: #181818; /* superficies */
+  --color-ink-750: #1d1d1d; /* superficie elevada */
+  --color-ink-700: #232323; /* bordes */
+  --color-ink-600: #2c2c2c; /* borde en hover */
+  --color-ink-500: #3a3a3a; /* borde marcado / divisores */
+  --color-ink-400: #4d4d4d; /* trazos decorativos */
+
+  --color-silver-50: #f5f5f5; /* titulares con más presencia */
+  --color-silver-100: #e6e6e6; /* texto principal */
+  --color-silver-200: #cfcfcf; /* texto destacado */
+  --color-silver-300: #b8b8b8; /* texto intermedio */
+  --color-silver-400: #a0a0a0; /* texto secundario */
+  --color-silver-500: #7a7a7a; /* texto terciario / metadatos */
+  --color-silver-600: #5c5c5c; /* apoyos muy tenues */
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Evita el desbordamiento lateral en pantallas angostas */
+  overflow-x: hidden;
+  /* Impide que iOS agrande el texto al rotar el dispositivo */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-silver-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Textura de grano ───────────────────────────────────────────────
+   Una capa de ruido muy tenue sobre todo el sitio. Es lo que evita que
+   los fondos planos se vean "digitales" y da sensación de material. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Retícula de fondo ──────────────────────────────────────────────
+   Cuadrícula técnica muy sutil, como papel milimetrado de ingeniería. */
+.grid-backdrop {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.022) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Difumina la retícula hacia los bordes para que no se corte en seco. */
+.grid-fade {
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+}
+
+/* ── Línea divisoria con brillo central ────────────────────────────*/
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-ink-500) 25%,
+    var(--color-ink-500) 75%,
+    transparent
+  );
+}
+
+/* ── Marcas de esquina en tarjetas ─────────────────────────────────
+   Pequeños ángulos que aparecen al pasar el cursor: refuerzan el
+   lenguaje de "planos técnicos" sin añadir color. */
+.corner-marks::before,
+.corner-marks::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.corner-marks::before {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--color-silver-500);
+  border-left: 1px solid var(--color-silver-500);
+}
+.corner-marks::after {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 1px solid var(--color-silver-500);
+  border-right: 1px solid var(--color-silver-500);
+}
+.corner-marks:hover::before,
+.corner-marks:hover::after {
+  opacity: 1;
+}
+
+/* ── Barra de progreso de lectura ──────────────────────────────────*/
+.scroll-progress {
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* ── Terminal del hero ─────────────────────────────────────────────*/
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.terminal-line {
+  opacity: 0;
+  animation: line-in 0.45s ease-out both;
+}
+
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-cursor {
+  animation:
+    line-in 0.45s ease-out both,
+    cursor-blink 1.1s step-end infinite;
+}
+
+/* Barrido de luz que recorre la terminal, como un escaneo. */
+@keyframes sheen {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+.sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgb(255 255 255 / 0.05) 50%,
+    transparent 65%
+  );
+  animation: sheen 7s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+/* ── Cinta deslizante ──────────────────────────────────────────────*/
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* ── Menú móvil ────────────────────────────────────────────────────*/
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.menu-panel:not([hidden]) {
+  display: block;
+  animation: menu-in 0.25s ease-out;
+  /* En pantallas bajas (teléfono horizontal) el panel se desplaza
+     en lugar de salirse de la vista. 4rem = alto de la barra. */
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ── Accesibilidad: menos movimiento ───────────────────────────────*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    /* El retardo también: sin esto, una animación con `fill: both` mantiene
+       su estado inicial durante toda la espera y el contenido queda
+       invisible (las líneas de la terminal llegaban a 3,2 s ocultas). */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
+  }
+
+  .terminal-line {
+    opacity: 1;
+  }
+
+  .marquee-track,
+  .sheen::after {
+    animation: none;
+  }
+}

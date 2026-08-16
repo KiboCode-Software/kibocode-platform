@@ -1,0 +1,15 @@
+# Finales de línea LF en todo el repositorio.
+#
+# Es obligatorio, no cosmético: `deploy/deploy.sh`, `kibocode.service` y
+# `nginx.conf` se ejecutan en el EC2. Con finales CRLF, bash falla con un
+# críptico "\r: command not found" y systemd no arranca el servicio.
+* text=auto eol=lf
+
+# Binarios: que git no intente normalizarlos.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

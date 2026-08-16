@@ -1,0 +1,24 @@
+# Raíz del proyecto. Cada carpeta tiene además su propio .gitignore.
+
+# Entorno
+.env
+.env.local
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Backend
+backend/.venv/
+backend/db.sqlite3
+backend/staticfiles/
+backend/media/
+__pycache__/
+*.pyc
+
+# Configuración local de cada máquina (la de arranque, launch.json, sí se comparte)
+.claude/settings.local.json
+
+# Sistema
+.DS_Store
+Thumbs.db
