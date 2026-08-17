@@ -20,6 +20,8 @@ export function ContactSection() {
     submitLabel,
     whatsappLabel,
     successMessage,
+    replyNote,
+    preferenceForm,
   } = useContent().contactContent;
   const { config } = useLanguage();
   const { values, status, handleChange, handleSubmit } = useContactForm();
@@ -98,6 +100,8 @@ export function ContactSection() {
             .
           </Checkbox>
 
+          <p className='text-[12px] text-gray-500'>{replyNote}</p>
+          
           <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
             <Button type="submit" className="w-full sm:w-auto">
               {submitLabel}
@@ -112,7 +116,7 @@ export function ContactSection() {
 
           <aside className="border-t border-ink-600 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-2">
             <h3 className="text-sm font-medium uppercase tracking-wider text-silver-500">
-              ¿Prefieres saltarte el formulario?
+              {preferenceForm}
             </h3>
             <a
               href={whatsappUrl()}

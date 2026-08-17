@@ -216,8 +216,11 @@ export const contactContent = {
     label: 'He leído y acepto el',
     linkLabel: 'Aviso de Privacidad',
   },
+
   submitLabel: 'Enviar por WhatsApp',
+  preferenceForm: '¿Prefieres saltarte el formulario?',
   whatsappLabel: 'O escríbenos directo por WhatsApp Business',
+  replyNote: 'Te respondemos en menos de 24 horas hábiles.',
   successMessage:
     'Se abrió WhatsApp con tu mensaje listo — solo presiona enviar.',
 };

@@ -214,6 +214,8 @@ export const contactContent = {
     linkLabel: 'Privacy Notice',
   },
   submitLabel: 'Send via WhatsApp',
+  preferenceForm: 'Prefer to skip the form?',
+  replyNote: 'We reply within 24 business hours.',
   whatsappLabel: 'Or message us directly on WhatsApp Business',
   successMessage: 'WhatsApp is open with your message ready — just hit send.',
 };
