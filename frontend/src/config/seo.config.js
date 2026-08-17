@@ -59,10 +59,30 @@ export const seo = {
     },
   ],
 
-  /* Páginas indexables, con su prioridad relativa para el sitemap. */
+  /**
+   * Páginas indexables. Cada una lleva su propio título y descripción: si
+   * comparten los de la portada, los buscadores las tratan como duplicados
+   * y solo indexan una.
+   */
   pages: [
-    { path: '/', priority: '1.0', changefreq: 'monthly' },
-    { path: '/privacidad', priority: '0.3', changefreq: 'yearly' },
+    {
+      path: '/',
+      priority: '1.0',
+      changefreq: 'monthly',
+      title: 'KiboCode | Desarrollo de software a medida para empresas en Colombia',
+      description:
+        'Agencia de software a medida en Colombia. Desarrollamos plataformas web, automatizamos procesos y construimos sistemas de gestión que reducen el trabajo manual.',
+      structuredData: true,
+    },
+    {
+      path: '/privacidad',
+      priority: '0.3',
+      changefreq: 'yearly',
+      title: 'Aviso de Privacidad | KiboCode',
+      description:
+        'Cómo trata KiboCode tus datos personales conforme a la Ley 1581 de 2012: qué recolectamos, para qué, cuánto tiempo y cómo ejercer tus derechos.',
+      structuredData: false,
+    },
   ],
 
   /* La plataforma interna no debe indexarse. */
