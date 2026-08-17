@@ -11,7 +11,7 @@ import { useLanguage } from '../../i18n/LanguageContext.jsx';
  * la deshaga en la siguiente visita.
  */
 export function LanguageSwitcher({ className = '', onNavigate }) {
-  const { language } = useLanguage();
+  const { language, path } = useLanguage();
 
   return (
     <div
@@ -29,7 +29,7 @@ export function LanguageSwitcher({ className = '', onNavigate }) {
               </span>
             )}
             <a
-              href={equivalentPath(code)}
+              href={equivalentPath(code, path)}
               hrefLang={code}
               aria-current={activo ? 'true' : undefined}
               onClick={() => {
@@ -51,9 +51,14 @@ export function LanguageSwitcher({ className = '', onNavigate }) {
   );
 }
 
-/** La misma página, en el idioma pedido. */
-function equivalentPath(code) {
-  const actual = typeof window === 'undefined' ? '/' : window.location.pathname;
+/**
+ * La misma página, en el idioma pedido.
+ *
+ * La ruta llega por parámetro y no de `window`: en el pre-renderizado no hay
+ * navegador, y leerlo allí hacía que el HTML servido enlazara siempre a la
+ * portada en vez de a la página equivalente.
+ */
+function equivalentPath(code, actual = '/') {
   const sinPrefijo = stripPrefix(actual);
   const destino = LANGUAGES[code];
 

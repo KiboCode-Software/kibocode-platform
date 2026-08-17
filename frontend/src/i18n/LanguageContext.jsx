@@ -11,11 +11,14 @@ const LanguageContext = createContext(null);
  * El idioma se deriva de la URL, no de un estado interno: así el
  * pre-renderizado puede generar cada versión y los buscadores indexar ambas.
  */
-export function LanguageProvider({ language = DEFAULT_LANGUAGE, children }) {
+export function LanguageProvider({ language = DEFAULT_LANGUAGE, path = '/', children }) {
   const value = useMemo(() => {
     const config = LANGUAGES[language] || LANGUAGES[DEFAULT_LANGUAGE];
-    return { language: config.code, config, content: getContent(config.code) };
-  }, [language]);
+    // La ruta viaja por el contexto y no se lee de `window`: durante el
+    // pre-renderizado no hay navegador, y leerlo allí generaba enlaces
+    // equivocados en el HTML servido.
+    return { language: config.code, config, path, content: getContent(config.code) };
+  }, [language, path]);
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
@@ -31,8 +34,8 @@ function useLanguageContext() {
 /** Contenido del idioma activo. */
 export const useContent = () => useLanguageContext().content;
 
-/** Código y configuración del idioma activo (rutas, etiquetas, locale). */
+/** Código, configuración y ruta actual del idioma activo. */
 export function useLanguage() {
-  const { language, config } = useLanguageContext();
-  return { language, config };
+  const { language, config, path } = useLanguageContext();
+  return { language, config, path };
 }

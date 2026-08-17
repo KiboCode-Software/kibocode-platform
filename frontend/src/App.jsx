@@ -27,7 +27,7 @@ function PublicSite({ path }) {
   const esPrivacidad = sinPrefijo === stripPrefix(LANGUAGES[language].routes.privacy);
 
   return (
-    <LanguageProvider language={language}>
+    <LanguageProvider language={language} path={path}>
       <Analytics />
       {esPrivacidad ? <PrivacyPage /> : <LandingPage />}
     </LanguageProvider>
