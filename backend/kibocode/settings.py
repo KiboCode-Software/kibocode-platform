@@ -193,6 +193,14 @@ LOGGING = {
     'root': {'handlers': ['console'], 'level': env_str('LOG_LEVEL', 'INFO')},
     'loggers': {
         'django.request': {'handlers': ['console'], 'level': 'ERROR', 'propagate': False},
+        # WeasyPrint incrusta las fuentes con fontTools, que emite cientos de
+        # líneas de depuración por documento ("Compiling 'cmap' table"…). En
+        # un servidor que genera contratos a diario eso llena el journal sin
+        # aportar nada.
+        **{
+            nombre: {'level': 'WARNING', 'propagate': True}
+            for nombre in ('fontTools', 'weasyprint', 'PIL', 'fontTools.subset')
+        },
     },
 }
 

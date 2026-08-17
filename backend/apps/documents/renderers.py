@@ -12,7 +12,19 @@ Se elige con `PDF_ENGINE` (`auto` por defecto): se usa WeasyPrint si está
 disponible y, si no, Playwright.
 """
 
+import logging
 import os
+
+# fontTools y WeasyPrint fijan el nivel de sus propios registradores al
+# importarse, que ocurre de forma diferida y por tanto después de que Django
+# haya configurado el logging. Sin esto, cada documento generado escribe
+# cientos de líneas de depuración en el journal del servidor.
+_LIBRERIAS_RUIDOSAS = ('fontTools', 'weasyprint', 'PIL')
+
+
+def silenciar_librerias():
+    for nombre in _LIBRERIAS_RUIDOSAS:
+        logging.getLogger(nombre).setLevel(logging.WARNING)
 
 
 class PDFEngineUnavailable(RuntimeError):
@@ -47,6 +59,7 @@ def render_with_weasyprint(html, base_url=None, options=None):
     """WeasyPrint aplica los márgenes y el pie desde el CSS `@page` de la plantilla."""
     from weasyprint import HTML
 
+    silenciar_librerias()
     return HTML(string=html, base_url=base_url).write_pdf()
 
 
