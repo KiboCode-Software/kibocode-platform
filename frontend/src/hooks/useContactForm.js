@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { whatsappUrl } from '../config/site.config.js';
+import { registrarContacto } from '../lib/tiktok-pixel.js';
 
 const INITIAL_VALUES = { name: '', company: '', message: '', consent: false };
 
@@ -22,6 +23,11 @@ export function useContactForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // La conversión se registra antes de abrir WhatsApp: es lo que permite al
+    // optimizador de TikTok aprender qué anuncios traen clientes reales.
+    registrarContacto();
+
     const url = whatsappUrl(buildWhatsappMessage(values));
     const popup = window.open(url, '_blank', 'noopener');
     if (!popup) {

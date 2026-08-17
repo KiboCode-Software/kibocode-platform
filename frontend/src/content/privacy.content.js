@@ -25,12 +25,21 @@ export const privacyContent = {
       heading: 'Datos que recolectamos',
       paragraphs: [
         'A través del formulario de contacto de este sitio recolectamos tu nombre, el nombre de tu empresa y la descripción del proyecto o necesidad que nos compartas.',
+        'Además, cuando navegas por el sitio se recogen datos técnicos y de uso mediante herramientas de medición: dirección IP, tipo de dispositivo y navegador, páginas visitadas y desde qué anuncio o enlace llegaste. Estos datos no permiten identificarte por nombre y se usan de forma agregada.',
+      ],
+    },
+    {
+      heading: 'Herramientas de medición y publicidad',
+      paragraphs: [
+        `Usamos el píxel de TikTok para saber cuántas personas llegan a este sitio desde nuestros anuncios y cuántas nos contactan. Esa medición implica que TikTok, como responsable independiente, recibe datos de tu navegación y puede usarlos conforme a su propia política de privacidad, incluso para mostrarte publicidad.`,
+        'Puedes impedirlo bloqueando las cookies de terceros en tu navegador, usando su modo de navegación privada o una extensión de bloqueo. El sitio funciona con normalidad si lo haces.',
       ],
     },
     {
       heading: 'Finalidad del tratamiento',
       paragraphs: [
-        'Los datos que nos proporcionas se usan exclusivamente para contactarte, entender tu necesidad y ofrecerte un diagnóstico o propuesta relacionada con nuestros servicios de desarrollo de software. No usamos tus datos con fines distintos ni los vendemos a terceros.',
+        'Los datos que nos proporcionas en el formulario se usan exclusivamente para contactarte, entender tu necesidad y ofrecerte un diagnóstico o propuesta relacionada con nuestros servicios de desarrollo de software. No los vendemos a terceros.',
+        'Los datos de navegación se usan únicamente para medir el rendimiento de nuestra publicidad y mejorar el sitio.',
       ],
     },
     {
