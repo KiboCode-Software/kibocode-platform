@@ -6,8 +6,8 @@
 export const siteConfig = {
   name: 'KiboCode',
   whatsapp: {
-    number: '573126886357', // +57 312 688 6357
-    display: '+57 312 688 6357',
+    number: '573023328465', // +57 302 332 8465 — WhatsApp Business
+    display: '+57 302 332 8465',
     message: 'Hola, me interesa iniciar un proyecto con KiboCode.',
   },
   contactEmail: 'contacto@kibocode.lat',

@@ -239,8 +239,8 @@ KIBOCODE_LEGAL = {
     # Cédula del prestador: dato personal, se define por variable de entorno
     # (ver .env.example) y nunca se escribe en el código fuente.
     'documento': os.environ.get('KIBO_DOCUMENTO', ''),
-    'whatsapp': os.environ.get('KIBO_WHATSAPP', '+57 312 688 6357'),
-    'whatsapp_plain': os.environ.get('KIBO_WHATSAPP_PLAIN', '573126886357'),
+    'whatsapp': os.environ.get('KIBO_WHATSAPP', '+57 302 332 8465'),
+    'whatsapp_plain': os.environ.get('KIBO_WHATSAPP_PLAIN', '573023328465'),
     'email': os.environ.get('KIBO_EMAIL', 'contacto@kibocode.lat'),
     'ciudad': os.environ.get('KIBO_CIUDAD', 'Colombia'),
     # Vacío = usa backend/assets/logo.png
