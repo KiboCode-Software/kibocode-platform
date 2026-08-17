@@ -5,6 +5,19 @@
  * NOTA: las cifras de `hero.stats` son objetivos típicos de proyecto.
  * Ajústalas con métricas reales de tus clientes cuando las tengas.
  */
+export const navLinks = [
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Metodología', href: '#metodologia' },
+  { label: 'Por qué KiboCode', href: '#diferenciacion' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Contacto', href: '#contacto' },
+];
+
+export const footerContent = {
+  tagline: 'Ingeniería de software a medida.',
+  privacy: 'Aviso de Privacidad',
+};
+
 export const heroContent = {
   eyebrow: 'KiboCode — Software a la medida',
   title: 'Software a medida que convierte horas de trabajo manual en rentabilidad.',

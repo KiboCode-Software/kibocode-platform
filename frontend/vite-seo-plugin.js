@@ -72,19 +72,32 @@ function robotsTxt() {
 
 function sitemapXml() {
   const today = new Date().toISOString().slice(0, 10);
+
+  // Cada URL declara sus traducciones: es lo que evita que las versiones en
+  // distintos idiomas compitan entre sí como contenido duplicado.
   const urls = seo.pages
-    .map(
-      (page) => `  <url>
+    .map((page) => {
+      const alternates = seo.pages
+        .filter((otra) => otra.group === page.group)
+        .map(
+          (otra) =>
+            `    <xhtml:link rel="alternate" hreflang="${otra.lang}" href="${siteUrl}${otra.path}"/>`,
+        )
+        .join('\n');
+
+      return `  <url>
     <loc>${siteUrl}${page.path}</loc>
+${alternates}
     <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`,
-    )
+  </url>`;
+    })
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 </urlset>
 `;

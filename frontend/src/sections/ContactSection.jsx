@@ -5,8 +5,8 @@ import { TextField, TextAreaField } from '../components/ui/FormField.jsx';
 import { Checkbox } from '../components/ui/Checkbox.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
 import { useContactForm } from '../hooks/useContactForm.js';
-import { contactContent } from '../content/landing.content.js';
-import { whatsappUrl, routes } from '../config/site.config.js';
+import { useContent, useLanguage } from '../i18n/LanguageContext.jsx';
+import { whatsappUrl } from '../config/site.config.js';
 
 export function ContactSection() {
   const {
@@ -20,7 +20,8 @@ export function ContactSection() {
     submitLabel,
     whatsappLabel,
     successMessage,
-  } = contactContent;
+  } = useContent().contactContent;
+  const { config } = useLanguage();
   const { values, status, handleChange, handleSubmit } = useContactForm();
 
   return (
@@ -87,7 +88,7 @@ export function ContactSection() {
           >
             {consent.label}{' '}
             <a
-              href={routes.privacy}
+              href={config.routes.privacy}
               target="_blank"
               rel="noopener noreferrer"
               className="text-silver-100 underline underline-offset-4 transition-colors duration-200 hover:text-white"

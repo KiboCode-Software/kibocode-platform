@@ -4,9 +4,10 @@ import { TerminalCard } from '../components/ui/TerminalCard.jsx';
 import { Reveal, RevealWords } from '../components/motion/Reveal.jsx';
 import { Parallax } from '../components/motion/Parallax.jsx';
 import { Counter } from '../components/motion/Counter.jsx';
-import { heroContent } from '../content/landing.content.js';
+import { useContent } from '../i18n/LanguageContext.jsx';
 
 export function HeroSection() {
+  const { heroContent } = useContent();
   const { eyebrow, title, subtitle, primaryCta, secondaryCta, terminal, stats } =
     heroContent;
 

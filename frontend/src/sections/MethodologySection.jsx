@@ -2,9 +2,10 @@ import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
 import { Parallax } from '../components/motion/Parallax.jsx';
-import { methodologyContent } from '../content/landing.content.js';
+import { useContent } from '../i18n/LanguageContext.jsx';
 
 export function MethodologySection() {
+  const { methodologyContent } = useContent();
   const { id, eyebrow, title, steps } = methodologyContent;
 
   return (

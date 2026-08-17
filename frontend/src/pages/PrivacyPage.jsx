@@ -1,10 +1,12 @@
 import { Container } from '../components/ui/Container.jsx';
 import { Logo } from '../components/ui/Logo.jsx';
 import { Footer } from '../components/layout/Footer.jsx';
-import { privacyContent } from '../content/privacy.content.js';
-import { routes } from '../config/site.config.js';
+import { LanguageSwitcher } from '../components/ui/LanguageSwitcher.jsx';
+import { useContent, useLanguage } from '../i18n/LanguageContext.jsx';
 
 export function PrivacyPage() {
+  const { privacyContent } = useContent();
+  const { config } = useLanguage();
   const { eyebrow, title, subtitle, intro, lastUpdated, backLabel, blocks } =
     privacyContent;
 
@@ -12,13 +14,16 @@ export function PrivacyPage() {
     <>
       <header className="border-b border-ink-700 bg-ink-900">
         <Container className="flex h-16 items-center justify-between">
-          <Logo className="-ml-1 px-1 py-3" />
-          <a
-            href={routes.home}
-            className="py-3 text-sm text-silver-400 transition-colors duration-200 hover:text-silver-100"
-          >
-            ← {backLabel}
-          </a>
+          <Logo href={config.routes.home} className="-ml-1 px-1 py-3" />
+          <div className="flex items-center gap-5">
+            <LanguageSwitcher />
+            <a
+              href={config.routes.home}
+              className="py-3 text-sm text-silver-400 transition-colors duration-200 hover:text-silver-100"
+            >
+              ← {backLabel}
+            </a>
+          </div>
         </Container>
       </header>
 

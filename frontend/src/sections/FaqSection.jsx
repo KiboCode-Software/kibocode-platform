@@ -1,9 +1,10 @@
 import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
-import { faqContent } from '../content/landing.content.js';
+import { useContent } from '../i18n/LanguageContext.jsx';
 
 export function FaqSection() {
+  const { faqContent } = useContent();
   const { id, eyebrow, title, items } = faqContent;
 
   return (

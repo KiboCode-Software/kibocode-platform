@@ -74,6 +74,8 @@ export const seo = {
   pages: [
     {
       path: '/',
+      lang: 'es',
+      group: 'home',
       priority: '1.0',
       changefreq: 'monthly',
       title: 'KiboCode | Desarrollo de software a medida para empresas',
@@ -83,11 +85,35 @@ export const seo = {
     },
     {
       path: '/privacidad',
+      lang: 'es',
+      group: 'privacy',
       priority: '0.3',
       changefreq: 'yearly',
       title: 'Aviso de Privacidad | KiboCode',
       description:
         'Cómo trata KiboCode tus datos personales conforme a la Ley 1581 de 2012: qué recolectamos, para qué, cuánto tiempo y cómo ejercer tus derechos.',
+      structuredData: false,
+    },
+    {
+      path: '/en',
+      lang: 'en',
+      group: 'home',
+      priority: '1.0',
+      changefreq: 'monthly',
+      title: 'KiboCode | Custom software development for growing companies',
+      description:
+        'We build custom software for companies in any country: web platforms, process automation and management systems. Fully remote engineering team.',
+      structuredData: true,
+    },
+    {
+      path: '/en/privacy',
+      lang: 'en',
+      group: 'privacy',
+      priority: '0.3',
+      changefreq: 'yearly',
+      title: 'Privacy Notice | KiboCode',
+      description:
+        'How KiboCode processes your personal data under Colombian Law 1581 of 2012: what we collect, why, for how long and how to exercise your rights.',
       structuredData: false,
     },
   ],
