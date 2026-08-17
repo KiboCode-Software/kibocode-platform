@@ -37,11 +37,13 @@ function professionalService(id) {
       '@type': 'Person',
       name: siteConfig.legal.ownerName,
     },
+    /* El domicilio da credibilidad de empresa real; `areaServed` es a quién
+       le vendemos, y eso no tiene fronteras. Son cosas distintas. */
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'CO',
     },
-    areaServed: seo.areaServed.map((name) => ({ '@type': 'Place', name })),
+    areaServed: seo.areaServed,
     knowsLanguage: ['es'],
     sameAs: [`https://wa.me/${siteConfig.whatsapp.number}`],
     /* Catálogo de servicios: le dice al buscador qué vendemos exactamente. */
@@ -55,7 +57,7 @@ function professionalService(id) {
           name: service.name,
           description: service.description,
           provider: { '@id': id },
-          areaServed: 'CO',
+          areaServed: seo.areaServed,
         },
       })),
     },

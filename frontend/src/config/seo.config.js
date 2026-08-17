@@ -20,15 +20,18 @@ export const siteUrl = (process.env.VITE_SITE_URL || 'https://kibocode.lat').rep
 
 export const seo = {
   siteName: 'KiboCode',
-  locale: 'es_CO',
-  lang: 'es-CO',
+  /* Español neutro, no de un país concreto: trabajamos en remoto con
+     empresas de cualquier lugar. */
+  locale: 'es_LA',
+  lang: 'es',
 
-  /* El título es lo que más pesa: qué somos + qué hacemos + dónde. */
-  title: 'KiboCode | Desarrollo de software a medida para empresas en Colombia',
+  /* El título es lo que más pesa: qué somos y qué hacemos. Sin país: el
+     estar en Colombia es dónde estamos, no a quién le vendemos. */
+  title: 'KiboCode | Desarrollo de software a medida para empresas',
 
   /* ~155 caracteres: lo que Google muestra sin recortar. */
   description:
-    'Agencia de software a medida en Colombia. Desarrollamos plataformas web, automatizamos procesos y construimos sistemas de gestión que reducen el trabajo manual.',
+    'Desarrollamos software a medida para empresas de cualquier país: plataformas web, automatización de procesos y sistemas de gestión. Trabajo 100% remoto.',
 
   /* Frase corta para redes sociales, donde el espacio es menor. */
   socialDescription:
@@ -37,8 +40,12 @@ export const seo = {
   image: '/logo.png',
   imageAlt: 'KiboCode — software a medida',
 
-  /* Zona de servicio: refuerza la búsqueda local. */
-  areaServed: ['Colombia', 'Medellín', 'Antioquia'],
+  /**
+   * Zona de servicio: sin límite geográfico. El domicilio en Colombia se
+   * declara aparte, en la dirección de la organización — eso da credibilidad
+   * de empresa real sin decirle a nadie que solo atendemos un país.
+   */
+  areaServed: 'Worldwide',
 
   /* Qué hacemos, en el vocabulario con el que la gente busca. */
   services: [
@@ -69,9 +76,9 @@ export const seo = {
       path: '/',
       priority: '1.0',
       changefreq: 'monthly',
-      title: 'KiboCode | Desarrollo de software a medida para empresas en Colombia',
+      title: 'KiboCode | Desarrollo de software a medida para empresas',
       description:
-        'Agencia de software a medida en Colombia. Desarrollamos plataformas web, automatizamos procesos y construimos sistemas de gestión que reducen el trabajo manual.',
+        'Desarrollamos software a medida para empresas de cualquier país: plataformas web, automatización de procesos y sistemas de gestión. Trabajo 100% remoto.',
       structuredData: true,
     },
     {
