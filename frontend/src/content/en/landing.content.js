@@ -213,9 +213,16 @@ export const contactContent = {
     label: 'I have read and accept the',
     linkLabel: 'Privacy Notice',
   },
+  /* Message that opens in WhatsApp. {name} and {company} are replaced. */
+  whatsappMessage: {
+    greeting: 'Hi KiboCode 👋',
+    intro: "I'm {name}, from {company}.",
+  },
+
   submitLabel: 'Send via WhatsApp',
   preferenceForm: 'Prefer to skip the form?',
   replyNote: 'We reply within 24 business hours.',
+  scheduleLabel: 'Or book a 30-minute call',
   whatsappLabel: 'Or message us directly on WhatsApp Business',
   successMessage: 'WhatsApp is open with your message ready — just hit send.',
 };

@@ -13,6 +13,16 @@ export const siteConfig = {
   contactEmail: 'contacto@kibocode.lat',
 
   /**
+   * Agendamiento, un evento por idioma: la descripción y las preguntas de
+   * reserva de cal.com son un solo texto, así que un visitante inglés
+   * llegaría a una página en español si compartieran enlace.
+   */
+  schedule: {
+    es: 'https://cal.com/kibocode/diagnostico',
+    en: 'https://cal.com/kibocode/assessment',
+  },
+
+  /**
    * Datos del responsable del tratamiento (Ley 1581 de 2012).
    * PENDIENTE: reemplazar los dos valores entre corchetes antes de publicar.
    */
@@ -47,3 +57,8 @@ export const apiBaseUrl = (import.meta.env?.VITE_API_URL || '').replace(/\/+$/, 
 
 export const whatsappUrl = (text = siteConfig.whatsapp.message) =>
   `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(text)}`;
+
+/** Enlace de agendamiento del idioma indicado, con el español como respaldo. */
+export const scheduleUrl = (language) =>
+  siteConfig.schedule[language] || siteConfig.schedule.es;
+

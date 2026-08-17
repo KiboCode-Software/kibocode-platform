@@ -6,7 +6,7 @@ import { Checkbox } from '../components/ui/Checkbox.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
 import { useContactForm } from '../hooks/useContactForm.js';
 import { useContent, useLanguage } from '../i18n/LanguageContext.jsx';
-import { whatsappUrl } from '../config/site.config.js';
+import { whatsappUrl, scheduleUrl } from '../config/site.config.js';
 
 export function ContactSection() {
   const {
@@ -20,10 +20,11 @@ export function ContactSection() {
     submitLabel,
     whatsappLabel,
     successMessage,
+    scheduleLabel,
     replyNote,
     preferenceForm,
   } = useContent().contactContent;
-  const { config } = useLanguage();
+  const { language, config } = useLanguage();
   const { values, status, handleChange, handleSubmit } = useContactForm();
 
   return (
@@ -100,8 +101,8 @@ export function ContactSection() {
             .
           </Checkbox>
 
-          <p className='text-[12px] text-gray-500'>{replyNote}</p>
-          
+
+
           <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
             <Button type="submit" className="w-full sm:w-auto">
               {submitLabel}
@@ -110,6 +111,9 @@ export function ContactSection() {
               <p className="text-sm text-silver-400" role="status">
                 {successMessage}
               </p>
+            )}
+            {status !== 'success' && (
+              <p className="text-sm text-silver-500">{replyNote}</p>
             )}
           </div>
         </form>
@@ -131,6 +135,14 @@ export function ContactSection() {
               >
                 →
               </span>
+            </a>
+            <a
+              href={scheduleUrl(language)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 block border-t border-ink-700 pt-6 text-sm text-silver-400 transition-colors duration-300 hover:text-silver-100"
+            >
+              {scheduleLabel} →
             </a>
           </aside>
         </div>
