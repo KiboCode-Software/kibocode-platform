@@ -60,6 +60,10 @@ cp .env.example .env
 nano .env
 ```
 
+> En una instancia con poca memoria (menos de 2 GB libres) o compartida con
+> otros servicios, añade `GUNICORN_WORKERS=2` al `.env`. El valor por defecto
+> calcula los workers según los núcleos y puede dejar el servidor sin RAM.
+
 Valores mínimos para producción:
 
 ```ini
@@ -116,10 +120,14 @@ sudo systemctl status kibocode
 
 ## 6. nginx + HTTPS
 
+> **Si la instancia ya sirve otros sitios**, no borres nada de
+> `/etc/nginx/sites-enabled/`: KiboCode se añade como un bloque más y nginx
+> los distingue por `server_name`. Revisa antes qué hay con
+> `ls -la /etc/nginx/sites-enabled/`.
+
 ```bash
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/kibocode
 sudo ln -sf /etc/nginx/sites-available/kibocode /etc/nginx/sites-enabled/
-sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t && sudo systemctl reload nginx
 
 sudo apt install -y certbot python3-certbot-nginx

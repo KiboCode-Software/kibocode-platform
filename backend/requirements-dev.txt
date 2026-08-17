@@ -1,0 +1,10 @@
+-r requirements.txt
+
+# Motor de PDF alternativo, para desarrollo en Windows.
+#
+# WeasyPrint necesita las librerías GTK/Pango del sistema, que en Windows no
+# vienen por defecto. Playwright trae su propio Chromium y funciona sin ellas,
+# a costa de bastante más espacio y memoria — por eso no va en el servidor.
+#
+# Tras instalarlo:  python -m playwright install chromium
+playwright==1.49.1
