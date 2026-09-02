@@ -13,9 +13,15 @@ const SIZES = {
  * y el que aparece en cada esquina de la página, así que es el que fija el
  * color en la memoria antes de que se vea nada más.
  *
- * El archivo vive en `public/`, así que se referencia por ruta absoluta
- * (`/logo.png`) y no por import. Nunca desde `dist/`: esa carpeta es la
- * salida del build y se borra en cada compilación.
+ * Aquí va la marca sin disco: sobre los fondos ink el círculo negro no
+ * aporta nada y solo le quita aire. El disco se reserva para donde el fondo
+ * no lo controlamos — la pestaña del navegador, el icono de iOS y la
+ * cabecera de los PDF, que van sobre papel blanco.
+ *
+ * Es vectorial: aparece desde 28 px en el pie hasta 80 px en la portada, y
+ * al doble en pantallas retina. Vive en `public/`, así que se referencia por
+ * ruta absoluta y no por import. Nunca desde `dist/`: esa carpeta es la
+ * salida del build y se borra al compilar.
  */
 export function Logo({ href = routes.home, size = 'md', onClick, className = '' }) {
   const { box, text } = SIZES[size] ?? SIZES.md;
@@ -29,11 +35,11 @@ export function Logo({ href = routes.home, size = 'md', onClick, className = '' 
           className="glow-mark absolute -inset-2 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"
         />
         <img
-          src="/logo.png"
+          src="/logo-mark.svg"
           alt=""
           width={48}
           height={48}
-          className="relative h-full w-full rounded-full"
+          className="relative h-full w-full"
         />
       </span>
       <span

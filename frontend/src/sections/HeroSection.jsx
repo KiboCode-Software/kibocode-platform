@@ -42,11 +42,11 @@ export function HeroSection() {
               className="glow-mark absolute -inset-5 blur-xl"
             />
             <img
-              src="/logo.png"
+              src="/logo-mark.svg"
               alt=""
               width={80}
               height={80}
-              className="relative h-14 w-14 rounded-full md:h-[72px] md:w-[72px]"
+              className="relative h-16 w-16 md:h-20 md:w-20"
             />
           </span>
         </Reveal>

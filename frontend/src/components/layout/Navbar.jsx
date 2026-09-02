@@ -20,7 +20,7 @@ export function Navbar() {
 
   // Cierra el menú si la pantalla crece hasta el layout de escritorio
   useEffect(() => {
-    const query = window.matchMedia('(min-width: 768px)');
+    const query = window.matchMedia('(min-width: 1024px)');
     const close = (event) => event.matches && setOpen(false);
     query.addEventListener('change', close);
     return () => query.removeEventListener('change', close);
@@ -35,7 +35,7 @@ export function Navbar() {
           className="-ml-1 px-1 py-3"
         />
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -54,7 +54,7 @@ export function Navbar() {
           <LanguageSwitcher className="border-l border-ink-700 pl-6" />
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <LanguageSwitcher />
           <button
             type="button"
@@ -88,7 +88,7 @@ export function Navbar() {
       <div
         id="menu-movil"
         hidden={!open}
-        className="menu-panel border-t border-ink-700 bg-ink-950 md:hidden"
+        className="menu-panel border-t border-ink-700 bg-ink-950 lg:hidden"
       >
         <Container className="flex flex-col py-2">
           {navLinks.map((link) => (

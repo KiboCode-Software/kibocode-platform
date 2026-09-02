@@ -46,16 +46,16 @@ export function LoginView({ onSignedIn }) {
       <div className="w-full max-w-sm">
         <div className="mb-10 flex flex-col items-center text-center">
           <img
-            src="/logo.png"
+            src="/logo-mark.svg"
             alt=""
             width={56}
             height={56}
-            className="mb-4 h-14 w-14 rounded-full"
+            className="mb-4 h-14 w-14"
           />
           <span className="text-xl font-semibold tracking-tight text-silver-50">
-            KiboCode<span className="text-silver-400">.</span>
+            KiboCode<span className="text-accent-500">.</span>
           </span>
-          <p className="mt-2 text-xs uppercase tracking-[0.2em] text-silver-500">
+          <p className="mt-2 text-xs uppercase tracking-[0.2em] text-silver-400">
             Plataforma interna
           </p>
         </div>
