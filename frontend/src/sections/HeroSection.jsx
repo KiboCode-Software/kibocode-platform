@@ -3,6 +3,9 @@ import { Button } from '../components/ui/Button.jsx';
 import { TerminalCard } from '../components/ui/TerminalCard.jsx';
 import { Reveal, RevealWords } from '../components/motion/Reveal.jsx';
 import { Counter } from '../components/motion/Counter.jsx';
+import { Parallax } from '../components/motion/Parallax.jsx';
+import { PointerLight } from '../components/motion/PointerLight.jsx';
+import { Plane } from '../components/motion/Plane.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
 /**
@@ -23,16 +26,17 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-ink-950 pt-16">
-      {/* Curvas de nivel con la cumbre encendida. Decorativas. */}
-      <div
-        aria-hidden="true"
-        className="topo-lit fade-edges pointer-events-none absolute inset-0"
-      />
-      {/* Halo de la marca, muy abierto: baña la mitad superior. */}
-      <div
-        aria-hidden="true"
-        className="glow-mark pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] blur-3xl md:right-[5%] md:h-[720px] md:w-[720px]"
-      />
+      {/* Tres planos a distinta distancia. Las curvas al fondo, casi quietas;
+          el halo en medio, respondiendo al puntero; el contenido al frente,
+          firme. Es la separación entre ellos lo que da relieve. */}
+      <Parallax pixels={150} className="pointer-events-none absolute inset-0">
+        <div
+          aria-hidden="true"
+          className="topo-lit fade-edges absolute inset-x-0 -inset-y-40"
+        />
+      </Parallax>
+
+      <PointerLight className="pointer-events-none absolute inset-0" />
 
       {/* La barra es fija, así que el `pt-16` de la sección solo compensa su
           altura: el aire real de la portada es este. */}
@@ -77,14 +81,17 @@ export function HeroSection() {
         </Reveal>
       </Container>
 
+      {/* El registro entra inclinado y se endereza al subir: gira hacia ti
+          hasta quedar de frente. Es el único momento coreografiado de la
+          página — repetirlo en cada sección lo convertiría en un tic. */}
       <Container className="relative pb-16 md:pb-20">
-        <Reveal delay={0.2}>
+        <Plane settle>
           <TerminalCard
             label={terminal.label}
             prompt={terminal.prompt}
             lines={terminal.lines}
           />
-        </Reveal>
+        </Plane>
       </Container>
 
       {/* Fila de instrumentos: la medición de lo que acaba de desplegarse.

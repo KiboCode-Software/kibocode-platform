@@ -62,12 +62,18 @@ export function RevealWords({ text, className = '', delay = 0, accentLast = fals
 
   useGsapContext(() => {
     const targets = ref.current.querySelectorAll('[data-word]');
-    // `gsap.set` en el efecto de layout coloca el estado inicial antes del
-    // primer pintado. Así no hace falta un estilo inline en el marcado, que
-    // rompería la hidratación y dejaría el texto oculto si GSAP no cargara.
-    gsap.set(targets, { yPercent: 110 });
-    gsap.to(targets, {
-      yPercent: 0,
+    // Un solo `from` en vez de `set` + `to`. El estado inicial lo coloca el
+    // efecto de layout, antes del primer pintado, así que no hace falta un
+    // estilo inline en el marcado que rompería la hidratación y dejaría el
+    // texto oculto si GSAP no cargara.
+    //
+    // Y sobre todo: `from` deja el titular visible si el contexto se revierte
+    // y se vuelve a crear con la página ya pasada la línea de disparo — con
+    // `set` + `to`, el texto se quedaba escondido bajo su máscara para
+    // siempre. Pasa en desarrollo, donde StrictMode monta los efectos dos
+    // veces, pero es la misma trampa en cualquier remontaje.
+    gsap.from(targets, {
+      yPercent: 110,
       duration: 0.95,
       delay,
       ease: 'power4.out',

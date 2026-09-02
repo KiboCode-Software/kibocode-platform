@@ -1,4 +1,5 @@
 import { Container } from '../ui/Container.jsx';
+import { Parallax } from '../motion/Parallax.jsx';
 
 /**
  * Envoltorio estándar de sección.
@@ -26,13 +27,18 @@ export function Section({
   return (
     <section
       id={id}
-      className={`relative scroll-mt-20 py-18 md:py-24 lg:py-28 ${TONES[tone] ?? TONES.ground} ${className}`}
+      className={`relative overflow-hidden scroll-mt-20 py-18 md:py-24 lg:py-28 ${TONES[tone] ?? TONES.ground} ${className}`}
     >
+      {/* Las curvas de nivel se quedan atrás respecto al texto: es lo que
+          hace que el fondo se lea como fondo y no como parte de la hoja.
+          El sangrado vertical extra evita que asome el borde al desplazarse. */}
       {texture && (
-        <div
-          aria-hidden="true"
-          className="topo fade-edges pointer-events-none absolute inset-0"
-        />
+        <Parallax pixels={110} className="pointer-events-none absolute inset-0">
+          <div
+            aria-hidden="true"
+            className="topo fade-edges absolute inset-x-0 -inset-y-32"
+          />
+        </Parallax>
       )}
       {/* El halo va fuera del contenedor para que llegue de borde a borde. */}
       {glow && (

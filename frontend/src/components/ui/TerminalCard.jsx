@@ -11,7 +11,7 @@
  */
 export function TerminalCard({ label, prompt, lines }) {
   return (
-    <div className="relative overflow-hidden border border-ink-700 bg-ink-1000 font-mono text-[11px] leading-relaxed sm:text-xs lg:text-[13px]">
+    <div className="placa relative overflow-hidden border border-ink-700 bg-ink-1000 font-mono text-[11px] leading-relaxed sm:text-xs lg:text-[13px]">
       <div className="flex items-center gap-3 border-b border-ink-800 bg-ink-950 px-4 py-3 sm:px-6">
         <span className="h-1.5 w-1.5 shrink-0 bg-accent-500" aria-hidden="true" />
         <span className="label truncate text-silver-400">{label}</span>

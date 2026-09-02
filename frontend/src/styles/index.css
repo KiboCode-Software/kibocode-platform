@@ -186,6 +186,40 @@ body::before {
   );
 }
 
+/* ── Profundidad ───────────────────────────────────────────────────
+   La perspectiva vive en el envoltorio y la rotación en el hijo: así la
+   placa gira sobre su propio centro y no alrededor del punto de fuga de
+   toda la página, que es lo que hace que varias tarjetas en fila se
+   deformen cada una de una manera distinta. */
+.perspectiva {
+  perspective: 1100px;
+}
+
+.placa {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Brillo especular sobre la placa inclinada: sin él la rotación se lee
+   como un rectángulo torcido, no como una superficie con luz encima. */
+.placa-brillo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    360px circle at var(--brillo-x, 50%) var(--brillo-y, 0%),
+    rgb(217 187 255 / 0.1),
+    transparent 60%
+  );
+}
+
+.placa-brillo:hover::after {
+  opacity: 1;
+}
+
 /* ── Barra de avance de lectura ────────────────────────────────────*/
 .scroll-progress {
   transform-origin: 0 50%;
