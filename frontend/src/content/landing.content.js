@@ -19,7 +19,6 @@ export const footerContent = {
 };
 
 export const heroContent = {
-  eyebrow: 'KiboCode — Software a la medida',
   title: 'Software a medida que convierte horas de trabajo manual en rentabilidad.',
   subtitle:
     'No vendemos plantillas ni licencias genéricas. Estudiamos cómo opera tu empresa y construimos los sistemas que eliminan cuellos de botella, automatizan lo repetitivo y te dan control real del negocio. Trabajamos en remoto, con clientes en cualquier país.',

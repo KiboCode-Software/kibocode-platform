@@ -19,7 +19,6 @@ export const footerContent = {
 };
 
 export const heroContent = {
-  eyebrow: 'KiboCode — Custom software',
   title: 'Custom software that turns hours of manual work into profit.',
   subtitle:
     "We don't sell templates or off-the-shelf licences. We study how your company actually operates and build the systems that remove bottlenecks, automate the repetitive work and give you real control of the business. We work fully remote, with clients in any country.",

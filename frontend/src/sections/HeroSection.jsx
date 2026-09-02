@@ -18,7 +18,7 @@ import { useContent } from '../i18n/LanguageContext.jsx';
  */
 export function HeroSection() {
   const { heroContent } = useContent();
-  const { eyebrow, title, subtitle, primaryCta, secondaryCta, terminal, stats } =
+  const { title, subtitle, primaryCta, secondaryCta, terminal, stats } =
     heroContent;
 
   return (
@@ -34,7 +34,9 @@ export function HeroSection() {
         className="glow-mark pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] blur-3xl md:right-[5%] md:h-[720px] md:w-[720px]"
       />
 
-      <Container className="relative pb-14 pt-16 md:pb-20 md:pt-24 lg:pt-28">
+      {/* La barra es fija, así que el `pt-16` de la sección solo compensa su
+          altura: el aire real de la portada es este. */}
+      <Container className="relative pb-14 pt-8 md:pb-20 md:pt-12 lg:pt-14">
         <Reveal y={12}>
           <span className="relative inline-block">
             <span
@@ -51,14 +53,9 @@ export function HeroSection() {
           </span>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <p className="label mt-8 flex items-center gap-3 text-silver-400">
-            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-accent-500" />
-            {eyebrow}
-          </p>
-        </Reveal>
-
-        <h1 className="display mt-6 max-w-[19ch] text-[2.15rem] font-semibold leading-[1.06] text-silver-50 sm:text-5xl md:mt-8 md:text-6xl lg:text-[4.25rem]">
+        {/* Sin antetítulo: repetía el nombre de la marca que ya está en la
+            barra y en el isotipo, tres veces en el primer pantallazo. */}
+        <h1 className="display mt-8 max-w-[19ch] text-[2.15rem] font-semibold leading-[1.06] text-silver-50 sm:text-5xl md:mt-10 md:text-6xl lg:text-[4.25rem]">
           <RevealWords text={title} delay={0.25} accentLast />
         </h1>
 
