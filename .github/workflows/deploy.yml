@@ -1,0 +1,104 @@
+name: Desplegar a producción
+
+# Cada push a `main` deja el sitio actualizado en el EC2. Nadie entra por SSH
+# a mano: el runner compila, sincroniza el servidor y reinicia el servicio.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # botón "Run workflow" para relanzar sin tocar el código
+
+# Un despliegue a la vez. Si llegan dos pushes seguidos, el segundo espera:
+# cancelarlo a mitad dejaría el servidor con el código nuevo y el build viejo.
+concurrency:
+  group: produccion
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      DEPLOY_PATH: /srv/kibocode
+      SITE_URL: https://kibocode.lat
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # El build corre aquí y no en el EC2 a propósito: esa instancia está
+      # compartida con otros servicios y `npm ci` es, con diferencia, lo que
+      # más memoria y disco consume de todo el despliegue.
+      - name: Construir el frontend
+        working-directory: frontend
+        env:
+          VITE_TIKTOK_PIXEL_ID: ${{ secrets.VITE_TIKTOK_PIXEL_ID }}
+        run: |
+          npm ci
+          npm run build
+
+      # Los secretos se pasan por variables de entorno, no interpolados dentro
+      # del script: así su contenido nunca se interpreta como shell.
+      - name: Preparar el acceso SSH
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.EC2_KNOWN_HOSTS }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          {
+            echo "Host produccion"
+            echo "  HostName $EC2_HOST"
+            echo "  User $EC2_USER"
+            echo "  IdentityFile ~/.ssh/id_deploy"
+            echo "  IdentitiesOnly yes"
+            echo "  StrictHostKeyChecking yes"
+          } > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+
+      # Se despliega el commit exacto que disparó la ejecución, no "lo que haya
+      # en origin/main ahora": si mientras corre el job entra otro push, este
+      # despliegue sigue siendo coherente con el build que acaba de compilar.
+      - name: Sincronizar el código en el servidor
+        run: |
+          ssh produccion "set -euo pipefail
+            cd '$DEPLOY_PATH'
+            git fetch --prune origin
+            git reset --hard '$GITHUB_SHA'
+            git --no-pager log -1 --oneline" </dev/null
+
+      - name: Actualizar el backend y reiniciar
+        run: |
+          ssh produccion "set -euo pipefail
+            cd '$DEPLOY_PATH'
+            SKIP_GIT=1 SKIP_FRONTEND=1 ./deploy/deploy.sh" </dev/null
+
+      # El build viaja a una carpeta aparte y se cambia de sitio al final: el
+      # servidor nunca sirve un `dist/` a medio escribir.
+      - name: Publicar el frontend
+        run: |
+          rsync -az --delete frontend/dist/ produccion:"$DEPLOY_PATH/frontend/dist.incoming/"
+          ssh produccion "set -euo pipefail
+            cd '$DEPLOY_PATH/frontend'
+            rm -rf dist.anterior
+            if [ -d dist ]; then mv dist dist.anterior; fi
+            mv dist.incoming dist
+            rm -rf dist.anterior" </dev/null
+
+      # Prueba de humo desde fuera: si esto pasa, el visitante ve la página.
+      - name: Comprobar que el sitio responde
+        run: |
+          for ruta in / /en /privacidad /api/auth/health/; do
+            codigo=$(curl -fsS -o /dev/null -w '%{http_code}' "$SITE_URL$ruta")
+            echo "$ruta -> $codigo"
+          done

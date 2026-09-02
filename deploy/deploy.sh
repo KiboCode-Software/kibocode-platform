@@ -5,19 +5,32 @@
 #
 #   cd /srv/kibocode && ./deploy/deploy.sh
 #
+# GitHub Actions llama a este mismo script con SKIP_GIT=1 y SKIP_FRONTEND=1,
+# porque el runner ya dejó el repositorio en el commit desplegado y subió el
+# `dist/` compilado. Así hay un solo camino de despliegue, no dos.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-echo "==> Actualizando código"
-git pull --ff-only
+if [ "${SKIP_GIT:-0}" = "1" ]; then
+    echo "==> Código: ya sincronizado por CI"
+else
+    echo "==> Actualizando código"
+    git pull --ff-only
+fi
 
-echo "==> Frontend"
-cd frontend
-npm ci
-npm run build            # genera frontend/dist/
-cd "$ROOT"
+if [ "${SKIP_FRONTEND:-0}" = "1" ]; then
+    echo "==> Frontend: build recibido de CI"
+else
+    echo "==> Frontend"
+    cd frontend
+    npm ci
+    # El servidor comparte memoria con otros servicios: sin este límite, el
+    # build se queda sin RAM y muere a mitad.
+    NODE_OPTIONS=--max-old-space-size=1024 npm run build   # genera frontend/dist/
+    cd "$ROOT"
+fi
 
 echo "==> Backend"
 cd backend

@@ -156,11 +156,58 @@ en `/plataforma` (que sigue sin estar enlazada desde ningún lado).
 
 ## Actualizaciones
 
+Cada push a `main` despliega solo, vía `.github/workflows/deploy.yml`. Nadie
+tiene que entrar por SSH.
+
+```
+push a main → runner de GitHub compila el frontend
+            → ssh: git reset --hard <commit>
+            → ssh: deploy.sh (migra, estáticos, reinicia gunicorn, recarga nginx)
+            → rsync del dist/ ya compilado
+            → curl a /, /en, /privacidad y /api/auth/health/
+```
+
+El build corre en el runner y no en el EC2 porque la instancia está compartida
+con otros servicios y `npm ci` es lo que más memoria y disco consume. El
+servidor solo recibe el `dist/` terminado, en una carpeta aparte que se cambia
+de sitio al final: nunca sirve un build a medio escribir.
+
+### Secretos del repositorio
+
+En **Settings → Secrets and variables → Actions**:
+
+| Secreto | Qué es |
+|---|---|
+| `EC2_HOST` | IP o dominio de la instancia |
+| `EC2_USER` | Usuario SSH (`ubuntu`) |
+| `EC2_SSH_KEY` | Clave **privada** dedicada al despliegue, completa (con `-----BEGIN...`) |
+| `EC2_KNOWN_HOSTS` | Salida de `ssh-keyscan <IP>`, para verificar el host |
+| `VITE_TIKTOK_PIXEL_ID` | Opcional. Sin él el pixel queda inerte, el build no falla |
+
+Usa una clave **solo para el despliegue**, no la `.pem` de acceso a la
+instancia: si algún día hay que revocarla, se borra esa línea de
+`authorized_keys` y nadie pierde el acceso normal.
+
+```bash
+ssh-keygen -t ed25519 -C "github-actions-kibocode" -f ci_deploy -N ""
+# la pública va al servidor:
+cat ci_deploy.pub | ssh ubuntu@<IP> 'cat >> ~/.ssh/authorized_keys'
+# la privada va al secreto EC2_SSH_KEY, y luego se borra del disco
+```
+
+### Despliegue manual
+
+Sigue funcionando desde el servidor, por si CI está caído:
+
 ```bash
 cd /srv/kibocode && ./deploy/deploy.sh
 ```
 
 Compila, migra, recolecta estáticos, reinicia el servicio y verifica la salud.
+
+> Ojo: CI hace `git reset --hard` al commit desplegado. Cualquier archivo
+> **versionado** que edites a mano en `/srv/kibocode` se pierde en el siguiente
+> push. Lo ignorado (`backend/.env`, `.venv/`, `node_modules/`) no se toca.
 
 ## Diagnóstico
 
