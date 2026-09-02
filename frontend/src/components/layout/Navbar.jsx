@@ -27,7 +27,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-ink-700 bg-ink-900/85 backdrop-blur-md">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-ink-700/80 bg-ink-950/80 backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between">
         <Logo
           href={config.routes.home}
@@ -35,19 +35,20 @@ export function Navbar() {
           className="-ml-1 px-1 py-3"
         />
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-7 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="group relative text-sm text-silver-400 transition-colors duration-300 hover:text-silver-50"
+              className="group relative flex items-center text-sm text-silver-400 transition-colors duration-300 hover:text-silver-50"
             >
-              {link.label}
-              {/* Subrayado que crece desde la izquierda al pasar el cursor */}
+              {/* El mismo cuadrado violeta que marca cada sección: al pasar
+                  el cursor, el enlace se señala como un punto de la ruta. */}
               <span
                 aria-hidden="true"
-                className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent-500 transition-transform duration-300 group-hover:scale-x-100"
+                className="absolute -left-3 h-1 w-1 -translate-x-1 bg-accent-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
               />
+              {link.label}
             </a>
           ))}
           <LanguageSwitcher className="border-l border-ink-700 pl-6" />
@@ -87,7 +88,7 @@ export function Navbar() {
       <div
         id="menu-movil"
         hidden={!open}
-        className="menu-panel border-t border-ink-700 bg-ink-900 md:hidden"
+        className="menu-panel border-t border-ink-700 bg-ink-950 md:hidden"
       >
         <Container className="flex flex-col py-2">
           {navLinks.map((link) => (
@@ -95,8 +96,9 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="border-b border-ink-700/60 py-4 text-base text-silver-400 transition-colors duration-200 last:border-b-0 hover:text-silver-100"
+              className="flex items-center gap-3 border-b border-ink-800 py-4 text-base text-silver-300 transition-colors duration-200 last:border-b-0 hover:text-silver-50"
             >
+              <span aria-hidden="true" className="h-1 w-1 shrink-0 bg-accent-500" />
               {link.label}
             </a>
           ))}

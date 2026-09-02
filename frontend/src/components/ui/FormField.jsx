@@ -1,5 +1,8 @@
+/* La etiqueta va en mono con versalitas: el formulario es el único punto de
+   la página donde el visitante introduce datos, y la voz de datos de esta
+   marca es la mono. El campo se enciende en violeta al recibir el foco. */
 const baseInputStyles =
-  'w-full border border-ink-700 bg-ink-800 px-4 py-3 text-sm text-silver-100 placeholder:text-silver-400/60 transition-colors duration-200 focus:border-silver-400 focus:outline-none';
+  'w-full border border-ink-700 bg-ink-1000 px-4 py-3.5 text-sm text-silver-100 transition-colors duration-200 placeholder:text-silver-500 hover:border-ink-500 focus:border-accent-500 focus:outline-none';
 
 export function TextField({ id, label, error, ...props }) {
   return (
@@ -26,14 +29,11 @@ export function TextAreaField({ id, label, error, rows = 4, ...props }) {
 function FieldWrapper({ id, label, error, children }) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="mb-2 block text-xs font-medium uppercase tracking-wider text-silver-400"
-      >
+      <label htmlFor={id} className="label mb-3 block text-silver-400">
         {label}
       </label>
       {children}
-      {error && <p className="mt-1.5 text-xs text-silver-400">{error}</p>}
+      {error && <p className="mt-2 text-xs text-accent-300">{error}</p>}
     </div>
   );
 }

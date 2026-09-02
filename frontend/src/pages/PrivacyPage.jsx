@@ -12,7 +12,7 @@ export function PrivacyPage() {
 
   return (
     <>
-      <header className="border-b border-ink-700 bg-ink-900">
+      <header className="border-b border-ink-700 bg-ink-950">
         <Container className="flex h-16 items-center justify-between">
           <Logo href={config.routes.home} className="-ml-1 px-1 py-3" />
           <div className="flex items-center gap-5">
@@ -30,23 +30,24 @@ export function PrivacyPage() {
       <main className="py-16 md:py-24">
         <Container>
           <article className="max-w-3xl">
-            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-silver-400 sm:text-xs sm:tracking-[0.25em]">
+            <p className="label mb-5 flex items-center gap-3 text-silver-400">
+              <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-accent-500" />
               {eyebrow}
             </p>
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-silver-100 sm:text-4xl">
+            <h1 className="display text-3xl font-semibold leading-[1.1] text-silver-50 sm:text-4xl md:text-5xl">
               {title}
             </h1>
-            <p className="mt-3 text-base text-silver-400 sm:text-lg">{subtitle}</p>
-            <p className="mt-2 text-xs text-silver-400/70">{lastUpdated}</p>
+            <p className="mt-4 text-base text-silver-400 sm:text-lg">{subtitle}</p>
+            <p className="mt-2 font-mono text-xs text-silver-400">{lastUpdated}</p>
 
-            <p className="mt-10 border-l border-silver-400 pl-5 text-base leading-relaxed text-silver-100 sm:pl-6">
+            <p className="mt-10 border-l-2 border-accent-500 pl-5 text-base leading-relaxed text-silver-100 sm:pl-6">
               {intro}
             </p>
 
             <div className="mt-12 space-y-10">
               {blocks.map((block) => (
                 <section key={block.heading} className="border-t border-ink-700 pt-7">
-                  <h2 className="text-lg font-semibold text-silver-100">
+                  <h2 className="display-tight text-lg font-semibold text-silver-50 md:text-xl">
                     {block.heading}
                   </h2>
                   {block.paragraphs.map((paragraph) => (
@@ -62,11 +63,12 @@ export function PrivacyPage() {
                       {block.list.map((item) => (
                         <li
                           key={item}
-                          className="flex gap-3 text-sm leading-relaxed text-silver-400 sm:text-base"
+                          className="flex gap-3.5 text-sm leading-relaxed text-silver-400 sm:text-base"
                         >
-                          <span aria-hidden="true" className="text-silver-400/60">
-                            —
-                          </span>
+                          <span
+                            aria-hidden="true"
+                            className="mt-2 h-1.5 w-1.5 shrink-0 bg-accent-500"
+                          />
                           {item}
                         </li>
                       ))}

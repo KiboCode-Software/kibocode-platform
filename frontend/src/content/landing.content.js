@@ -26,6 +26,7 @@ export const heroContent = {
   primaryCta: { label: 'Agendar diagnóstico sin costo', href: '#contacto' },
   secondaryCta: { label: 'Ver cómo trabajamos', href: '#metodologia' },
   terminal: {
+    label: 'kibocode — producción',
     prompt: '$ kibo deploy --production',
     lines: [
       '✓ Sincronización de inventario conectada',

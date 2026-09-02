@@ -3,35 +3,45 @@ import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
+/**
+ * Los cuatro síntomas.
+ *
+ * Sin numerar: no son pasos ni un orden, son cuatro cosas que pasan a la
+ * vez. Numerarlas sugeriría una secuencia que no existe. Van como entradas
+ * de una lista, separadas solo por filetes, y el filete se enciende en
+ * violeta al pasar por encima — el mismo gesto de la traza de la ruta.
+ */
 export function ProblemsSection() {
   const { problemsContent } = useContent();
   const { id, eyebrow, title, items, closing } = problemsContent;
 
   return (
-    <Section id={id} className="relative">
+    <Section id={id} tone="raised" texture>
       <SectionHeader eyebrow={eyebrow} title={title} />
 
-      <div className="grid gap-px border border-ink-700 bg-ink-700 sm:grid-cols-2">
-        {items.map((item, index) => (
-          <Reveal key={item.title} delay={index * 0.08} className="bg-ink-950">
-            <article className="corner-marks group relative h-full p-7 transition-colors duration-500 hover:bg-ink-850 sm:p-8 lg:p-10">
-              <span
-                aria-hidden="true"
-                className="mb-5 block font-mono text-xs text-silver-600 transition-colors duration-500 group-hover:text-silver-400"
-              >
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 className="text-lg font-semibold text-silver-100">{item.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-silver-400">
-                {item.description}
-              </p>
-            </article>
-          </Reveal>
+      <Reveal stagger={0.08} className="grid gap-x-14 lg:grid-cols-2">
+        {items.map((item) => (
+          <article
+            key={item.title}
+            className="group relative border-t border-ink-700 py-8 md:py-10"
+          >
+            {/* Filo violeta que se dibuja sobre el filete al pasar el cursor */}
+            <span
+              aria-hidden="true"
+              className="route-fill absolute inset-x-0 top-0 h-px origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
+            />
+            <h3 className="display-tight text-lg font-semibold text-silver-100 transition-colors duration-300 group-hover:text-silver-50 md:text-xl">
+              {item.title}
+            </h3>
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-silver-400 md:text-[15px]">
+              {item.description}
+            </p>
+          </article>
         ))}
-      </div>
+      </Reveal>
 
       <Reveal delay={0.1}>
-        <p className="mt-10 max-w-3xl border-l-2 border-silver-500 pl-5 text-base leading-relaxed text-silver-200 sm:pl-6 sm:text-lg md:mt-12">
+        <p className="display-tight mt-14 max-w-4xl border-l-2 border-accent-500 pl-6 text-lg font-medium leading-snug text-silver-100 md:mt-16 md:pl-8 md:text-2xl">
           {closing}
         </p>
       </Reveal>

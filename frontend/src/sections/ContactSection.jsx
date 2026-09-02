@@ -1,6 +1,6 @@
 import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
-import { Button } from '../components/ui/Button.jsx';
+import { Button, ArrowLink } from '../components/ui/Button.jsx';
 import { TextField, TextAreaField } from '../components/ui/FormField.jsx';
 import { Checkbox } from '../components/ui/Checkbox.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
@@ -8,6 +8,14 @@ import { useContactForm } from '../hooks/useContactForm.js';
 import { useContent, useLanguage } from '../i18n/LanguageContext.jsx';
 import { whatsappUrl, scheduleUrl } from '../config/site.config.js';
 
+/**
+ * Contacto.
+ *
+ * El punto más luminoso de la página: el halo violeta sube desde abajo y
+ * la cierra donde termina el ascenso. Es también el único sitio donde el
+ * formulario se apoya sobre un plano propio, para que se lea como el
+ * destino de todo lo anterior y no como una sección más.
+ */
 export function ContactSection() {
   const {
     id,
@@ -28,35 +36,31 @@ export function ContactSection() {
   const { values, status, handleChange, handleSubmit } = useContactForm();
 
   return (
-    <Section id={id} className="relative overflow-hidden">
-      {/* Halo inferior: cierra la página con un poco de luz. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[380px] bg-[radial-gradient(ellipse_60%_60%_at_50%_110%,rgba(255,255,255,0.06),transparent)]"
-      />
+    <Section id={id} tone="raised" glow className="overflow-hidden">
+      <SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
 
-      <div className="relative">
-        <SectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
+      <Reveal stagger={0.09} className="mb-14 grid gap-px bg-ink-700 md:grid-cols-3">
+        {assurances.map((assurance) => (
+          <p
+            key={assurance}
+            className="flex items-start gap-3 bg-ink-900 py-5 pr-5 text-sm leading-snug text-silver-300 md:px-5"
+          >
+            <span
+              aria-hidden="true"
+              className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-accent-500"
+            />
+            {assurance}
+          </p>
+        ))}
+      </Reveal>
 
-        <Reveal stagger={0.09}>
-          <ul className="mb-12 grid max-w-3xl gap-3 md:mb-14 lg:grid-cols-3 lg:gap-8">
-            {assurances.map((assurance) => (
-              <li
-                key={assurance}
-                className="flex items-start gap-3 border-l border-ink-600 pl-4 text-sm leading-snug text-silver-400"
-              >
-                <span aria-hidden="true" className="mt-0.5 text-silver-200">
-                  ✓
-                </span>
-                {assurance}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
-        <div className="grid gap-12 lg:grid-cols-[1fr_320px] lg:gap-16">
-          <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-            <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:gap-14">
+        <Reveal
+          as="form"
+          onSubmit={handleSubmit}
+          className="space-y-7 border border-ink-700 bg-ink-950 p-7 md:p-10"
+        >
+          <div className="grid gap-7 md:grid-cols-2">
             <TextField
               id="name"
               label={fields.name.label}
@@ -74,6 +78,7 @@ export function ContactSection() {
               required
             />
           </div>
+
           <TextAreaField
             id="message"
             label={fields.message.label}
@@ -83,69 +88,58 @@ export function ContactSection() {
             rows={5}
             required
           />
-          <Checkbox
-            id="consent"
-            checked={values.consent}
-            onChange={handleChange}
-            required
-          >
+
+          <Checkbox id="consent" checked={values.consent} onChange={handleChange} required>
             {consent.label}{' '}
             <a
               href={config.routes.privacy}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-silver-100 underline underline-offset-4 transition-colors duration-200 hover:text-white"
+              className="text-silver-100 underline decoration-accent-500 underline-offset-4 transition-colors duration-200 hover:text-accent-300"
             >
               {consent.linkLabel}
             </a>
             .
           </Checkbox>
 
-
-
-          <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center">
             <Button type="submit" className="w-full sm:w-auto">
               {submitLabel}
             </Button>
-            {status === 'success' && (
-              <p className="text-sm text-silver-400" role="status">
+            {status === 'success' ? (
+              <p className="text-sm text-accent-300" role="status">
                 {successMessage}
               </p>
-            )}
-            {status !== 'success' && (
-              <p className="text-sm text-silver-500">{replyNote}</p>
+            ) : (
+              <p className="text-sm text-silver-400">{replyNote}</p>
             )}
           </div>
-        </form>
+        </Reveal>
 
-          <aside className="border-t border-ink-600 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-2">
-            <h3 className="text-sm font-medium uppercase tracking-wider text-silver-500">
-              {preferenceForm}
-            </h3>
-            <a
+        <Reveal delay={0.15} as="aside" className="lg:pt-2">
+          <h3 className="label text-silver-400">{preferenceForm}</h3>
+
+          <div className="mt-6 space-y-5 border-t border-ink-700 pt-6">
+            <ArrowLink
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-2 inline-flex items-center gap-2 border-b border-silver-500 py-3 text-sm leading-relaxed text-silver-100 transition-colors duration-300 hover:border-silver-100"
+              className="text-silver-100"
             >
               {whatsappLabel}
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-1"
+            </ArrowLink>
+
+            <div className="border-t border-ink-800 pt-5">
+              <ArrowLink
+                href={scheduleUrl(language)}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                →
-              </span>
-            </a>
-            <a
-              href={scheduleUrl(language)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 block border-t border-ink-700 pt-6 text-sm text-silver-400 transition-colors duration-300 hover:text-silver-100"
-            >
-              {scheduleLabel} →
-            </a>
-          </aside>
-        </div>
+                {scheduleLabel}
+              </ArrowLink>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </Section>
   );

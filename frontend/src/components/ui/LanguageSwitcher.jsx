@@ -36,10 +36,8 @@ export function LanguageSwitcher({ className = '', onNavigate }) {
                 setPreferredLanguage(code);
                 onNavigate?.();
               }}
-              className={`px-1 py-2 text-xs font-medium tracking-wider transition-colors duration-200 ${
-                activo
-                  ? 'text-silver-50'
-                  : 'text-silver-500 hover:text-silver-200'
+              className={`label px-1 py-2 transition-colors duration-200 ${
+                activo ? 'text-accent-300' : 'text-silver-400 hover:text-silver-100'
               }`}
             >
               {LANGUAGES[code].short}

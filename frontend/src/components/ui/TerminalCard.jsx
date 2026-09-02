@@ -1,36 +1,42 @@
 /**
- * Tarjeta estilo terminal: muestra líneas que aparecen en secuencia,
- * como un despliegue real. Da contexto de oficio sin salir de la paleta.
+ * Registro de despliegue.
  *
- * El texto escala con el viewport para que las líneas no se corten
- * en pantallas angostas.
+ * Ocupa el ancho completo bajo el titular en lugar de flotar como tarjeta
+ * al lado: así deja de ser un adorno y se lee como lo que dice ser — la
+ * salida real de una puesta en producción, que es exactamente el momento
+ * en que el trabajo de KiboCode empieza a devolver horas.
+ *
+ * El texto escala con el viewport para que las líneas no se corten en
+ * pantallas angostas.
  */
-export function TerminalCard({ prompt, lines }) {
+export function TerminalCard({ label, prompt, lines }) {
   return (
-    <div className="sheen relative overflow-hidden border border-ink-600 bg-ink-1000/90 font-mono text-[11px] leading-relaxed sm:text-xs lg:text-sm">
-      <div className="flex items-center gap-1.5 border-b border-ink-700 bg-ink-950 px-4 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-600" />
-        <span className="ml-3 truncate text-[10px] tracking-wider text-silver-600 sm:text-xs">
-          kibocode — producción
-        </span>
+    <div className="relative overflow-hidden border border-ink-700 bg-ink-1000 font-mono text-[11px] leading-relaxed sm:text-xs lg:text-[13px]">
+      <div className="flex items-center gap-3 border-b border-ink-800 bg-ink-950 px-4 py-3 sm:px-6">
+        <span className="h-1.5 w-1.5 shrink-0 bg-accent-500" aria-hidden="true" />
+        <span className="label truncate text-silver-400">{label}</span>
       </div>
-      <div className="space-y-2 px-4 py-5 sm:space-y-2.5 sm:px-5 sm:py-6">
-        <p className="terminal-line text-silver-100" style={{ animationDelay: '200ms' }}>
+
+      <div className="grid gap-y-2 px-4 py-6 sm:gap-y-2.5 sm:px-6 sm:py-8">
+        <p className="terminal-line text-accent-300" style={{ animationDelay: '200ms' }}>
           {prompt}
         </p>
-        {lines.map((line, index) => (
-          <p
-            key={line}
-            className={`terminal-line ${
-              index === lines.length - 1 ? 'pt-2 text-silver-100' : 'text-silver-400'
-            }`}
-            style={{ animationDelay: `${700 + index * 500}ms` }}
-          >
-            {line}
-          </p>
-        ))}
+
+        {lines.map((line, index) => {
+          const esUltima = index === lines.length - 1;
+          return (
+            <p
+              key={line}
+              className={`terminal-line ${
+                esUltima ? 'mt-3 border-t border-ink-800 pt-4 text-silver-100' : 'text-silver-400'
+              }`}
+              style={{ animationDelay: `${700 + index * 500}ms` }}
+            >
+              {line}
+            </p>
+          );
+        })}
+
         <span
           className="terminal-line mt-1 inline-block h-3.5 w-1.5 animate-cursor bg-accent-500 sm:h-4 sm:w-2"
           style={{ animationDelay: `${700 + lines.length * 500}ms` }}

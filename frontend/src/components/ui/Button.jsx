@@ -1,11 +1,16 @@
-// El sólido lleva texto oscuro, no blanco: sobre el violeta de marca el blanco
-// se queda en 3.9:1 y este botón es texto normal (14px), que exige 4.5:1. Y el
-// hover aclara en vez de oscurecer, porque con texto oscuro es al revés.
+/**
+ * Botón de la landing.
+ *
+ * El sólido es la única superficie grande de violeta de toda la página, y
+ * lleva texto oscuro, no blanco: sobre accent-500 el blanco se queda en
+ * 3,96:1 y esto es texto de 14px, que exige 4,5:1. Con ink-950 sube a
+ * 4,84:1. Por eso el hover aclara en vez de oscurecer.
+ */
 const VARIANTS = {
   solid:
-    'bg-accent-500 text-ink-950 hover:bg-accent-300 focus-visible:outline-accent-300',
+    'bg-accent-500 text-ink-950 shadow-[0_0_0_0_rgba(168,85,247,0)] hover:bg-accent-300 hover:shadow-[0_8px_40px_-8px_rgba(168,85,247,0.55)]',
   outline:
-    'border border-ink-700 text-silver-100 hover:border-accent-500 hover:text-accent-300 focus-visible:outline-silver-400',
+    'border border-ink-600 text-silver-100 hover:border-accent-500 hover:bg-accent-500/6 hover:text-accent-300',
 };
 
 export function Button({
@@ -17,10 +22,31 @@ export function Button({
 }) {
   return (
     <Tag
-      className={`inline-flex min-h-[48px] items-center justify-center px-6 py-3.5 text-center text-sm font-medium tracking-wide transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-7 ${VARIANTS[variant]} ${className}`}
+      className={`group/btn inline-flex min-h-[52px] items-center justify-center gap-2.5 px-7 py-4 text-center text-sm font-semibold tracking-wide transition-all duration-300 sm:px-8 ${VARIANTS[variant]} ${className}`}
       {...props}
     >
       {children}
     </Tag>
+  );
+}
+
+/**
+ * Enlace con flecha que avanza al pasar el cursor. Para las acciones
+ * secundarias que no merecen el peso de un botón.
+ */
+export function ArrowLink({ children, className = '', ...props }) {
+  return (
+    <a
+      className={`group/link inline-flex items-center gap-2 text-sm text-silver-300 transition-colors duration-300 hover:text-accent-300 ${className}`}
+      {...props}
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        className="transition-transform duration-300 group-hover/link:translate-x-1"
+      >
+        →
+      </span>
+    </a>
   );
 }

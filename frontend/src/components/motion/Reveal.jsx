@@ -16,6 +16,7 @@ export function Reveal({
   stagger = 0,
   className = '',
   as: Tag = 'div',
+  ...rest
 }) {
   const scope = useGsapContext(() => {
     const root = scope.current;
@@ -36,8 +37,11 @@ export function Reveal({
     });
   }, [delay, y, stagger]);
 
+  // El resto de props viaja al elemento: así `Reveal` puede ser el propio
+  // `<form onSubmit>` o un `<li>` sin necesitar un envoltorio extra que
+  // rompa la semántica de la lista.
   return (
-    <Tag ref={scope} className={className}>
+    <Tag ref={scope} className={className} {...rest}>
       {children}
     </Tag>
   );
@@ -52,7 +56,7 @@ export function Reveal({
  * además se rompen al envolverse. Por palabra el efecto funciona igual en
  * cualquier viewport.
  */
-export function RevealWords({ text, className = '', delay = 0 }) {
+export function RevealWords({ text, className = '', delay = 0, accentLast = false }) {
   const ref = useRef(null);
   const words = text.split(' ');
 
@@ -79,7 +83,15 @@ export function RevealWords({ text, className = '', delay = 0 }) {
           key={`${word}-${index}`}
           className="inline-flex overflow-hidden align-bottom"
         >
-          <span data-word className="inline-block">
+          {/* La última palabra es el remate de la frase — "rentabilidad",
+              "profit" — y va en violeta en los dos idiomas sin tener que
+              marcarla en la capa de contenido. */}
+          <span
+            data-word
+            className={`inline-block ${
+              accentLast && index === words.length - 1 ? 'text-accent-300' : ''
+            }`}
+          >
             {word}
           </span>
           {index < words.length - 1 && <span className="inline-block">&nbsp;</span>}

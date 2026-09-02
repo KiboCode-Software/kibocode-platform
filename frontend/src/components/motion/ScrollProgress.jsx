@@ -18,7 +18,7 @@ export function ScrollProgress() {
 
   return (
     <div ref={scope} className="absolute inset-x-0 bottom-0 h-px bg-transparent">
-      <div className="scroll-progress h-full w-full bg-linear-to-r from-silver-500 to-silver-200" />
+      <div className="scroll-progress route-fill h-full w-full origin-left" />
     </div>
   );
 }

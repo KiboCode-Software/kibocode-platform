@@ -1,50 +1,65 @@
 import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
-import { Parallax } from '../components/motion/Parallax.jsx';
+import { RouteLine } from '../components/motion/RouteLine.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
+/**
+ * La metodología, como la ruta de un ascenso.
+ *
+ * Aquí sí hay secuencia — descubrimiento, construcción, despliegue — así
+ * que los números 01/02/03 dicen algo verdadero, y la traza violeta que
+ * los une se dibuja al bajar por la página. Es el elemento firma del
+ * sitio: la marca es una llave apuntando a una cumbre, y esto es la ruta.
+ *
+ * En móvil la traza sube en vertical junto a los pasos; en escritorio los
+ * cruza en horizontal.
+ */
 export function MethodologySection() {
   const { methodologyContent } = useContent();
   const { id, eyebrow, title, steps } = methodologyContent;
 
   return (
-    <Section id={id} className="relative overflow-hidden">
-      {/* Número gigante de fondo, con parallax: da escala y profundidad. */}
-      <Parallax
-        speed={0.15}
-        className="pointer-events-none absolute -right-10 top-10 select-none"
-      >
-        <span
-          aria-hidden="true"
-          className="font-mono text-[10rem] font-bold leading-none text-ink-850 md:text-[16rem]"
-        >
-          03
-        </span>
-      </Parallax>
+    <Section id={id} tone="raised" texture>
+      <SectionHeader eyebrow={eyebrow} title={title} />
 
       <div className="relative">
-        <SectionHeader eyebrow={eyebrow} title={title} />
+        <RouteLine
+          axis="vertical"
+          className="absolute bottom-6 left-[3px] top-2 lg:hidden"
+        />
+        <RouteLine
+          axis="horizontal"
+          className="absolute inset-x-0 top-[3px] hidden lg:block"
+        />
 
-        <ol className="grid gap-10 sm:gap-12 lg:grid-cols-3 lg:gap-10">
+        <ol className="grid gap-12 md:gap-14 lg:grid-cols-3 lg:gap-10">
           {steps.map((step, index) => (
-            <Reveal key={step.number} delay={index * 0.12}>
-              <li className="group flex h-full flex-col border-t border-ink-600 pt-8">
-                <span
-                  aria-hidden="true"
-                  className="mb-6 block h-px w-0 bg-silver-300 transition-all duration-700 group-hover:w-16"
-                />
-                <span className="font-mono text-sm tracking-widest text-silver-500 transition-colors duration-500 group-hover:text-silver-200">
-                  {step.number}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-silver-100">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-silver-400">
-                  {step.description}
-                </p>
-                <p className="mt-6 border-l-2 border-ink-500 pl-4 text-sm font-medium leading-relaxed text-silver-200 transition-colors duration-500 group-hover:border-silver-500">
-                  {step.deliverable}
-                </p>
-              </li>
+            <Reveal
+              key={step.number}
+              as="li"
+              delay={index * 0.12}
+              className="relative pl-10 lg:pl-0 lg:pt-14"
+            >
+              {/* Marcador de campamento, sobre la traza */}
+              <span
+                aria-hidden="true"
+                className="absolute left-0 top-1 h-[7px] w-[7px] bg-accent-500 lg:top-0"
+              />
+
+              <span className="label text-accent-300">{step.number}</span>
+
+              <h3 className="display-tight mt-4 text-xl font-semibold text-silver-50 md:text-2xl">
+                {step.title}
+              </h3>
+
+              <p className="mt-4 text-sm leading-relaxed text-silver-400 md:text-[15px]">
+                {step.description}
+              </p>
+
+              <p className="mt-7 border-l border-ink-600 pl-5 text-sm font-medium leading-relaxed text-silver-200">
+                {step.deliverable}
+              </p>
             </Reveal>
           ))}
         </ol>

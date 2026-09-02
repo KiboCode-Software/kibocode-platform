@@ -26,6 +26,7 @@ export const heroContent = {
   primaryCta: { label: 'Book a free assessment', href: '#contact' },
   secondaryCta: { label: 'See how we work', href: '#method' },
   terminal: {
+    label: 'kibocode — production',
     prompt: '$ kibo deploy --production',
     lines: [
       '✓ Inventory sync connected',

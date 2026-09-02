@@ -1,46 +1,66 @@
 @import 'tailwindcss';
 
-@theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+/* ═══════════════════════════════════════════════════════════════════
+   Sistema visual de KiboCode
+   ═══════════════════════════════════════════════════════════════════
 
-  /* ── Paleta KiboCode ──────────────────────────────────────────────
-     Misma escala monocromática, con pasos intermedios para poder
-     construir profundidad sin salirse del gris. */
-  --color-ink-1000: #080808; /* negro de fondo profundo */
+   La marca es una llave `{` apuntando a una cumbre. Kibo es, de hecho,
+   la cima del Kilimanjaro. De ahí sale todo el lenguaje de esta página:
+   altitud, ruta, ascenso. No con dibujos de montañas, sino en la
+   estructura — curvas de nivel como textura de fondo, marcadores de
+   altitud en las fases, y una línea de ruta que sube al hacer scroll.
+
+   El violeta no se usa como pintura sino como LUZ: halos, la línea de
+   ruta, el filo de un plano. Superficie grande de violeta solo hay una,
+   el botón principal.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Archivo tiene eje de ancho (62–125%). Ese eje ES el sistema
+     tipográfico: expandido para titulares, normal para lectura.
+     IBM Plex Mono para la capa de datos: altitudes, cifras, terminal. */
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* ── Base ink / silver ────────────────────────────────────────────
+     Escala monocromática con pasos intermedios: permite construir
+     profundidad por capas sin salirse del gris. */
+  --color-ink-1000: #080808; /* pozo, fondo de la terminal */
   --color-ink-950: #0f0f0f; /* fondo base */
-  --color-ink-900: #121212; /* fondo hero */
-  --color-ink-850: #151515; /* separación sutil entre bloques */
-  --color-ink-800: #181818; /* superficies */
-  --color-ink-750: #1d1d1d; /* superficie elevada */
-  --color-ink-700: #232323; /* bordes */
-  --color-ink-600: #2c2c2c; /* borde en hover */
-  --color-ink-500: #3a3a3a; /* borde marcado / divisores */
+  --color-ink-900: #121212; /* superficie elevada */
+  --color-ink-850: #151515; /* separación sutil */
+  --color-ink-800: #181818; /* paneles */
+  --color-ink-750: #1d1d1d; /* panel elevado */
+  --color-ink-700: #232323; /* filetes */
+  --color-ink-600: #2c2c2c; /* filete marcado */
+  --color-ink-500: #3a3a3a; /* divisores */
   --color-ink-400: #4d4d4d; /* trazos decorativos */
 
-  --color-silver-50: #f5f5f5; /* titulares con más presencia */
+  --color-silver-50: #f5f5f5;
   --color-silver-100: #e6e6e6; /* texto principal */
-  --color-silver-200: #cfcfcf; /* texto destacado */
-  --color-silver-300: #b8b8b8; /* texto intermedio */
+  --color-silver-200: #cfcfcf;
+  --color-silver-300: #b8b8b8;
   --color-silver-400: #a0a0a0; /* texto secundario */
-  --color-silver-500: #7a7a7a; /* texto terciario / metadatos */
-  --color-silver-600: #5c5c5c; /* apoyos muy tenues */
+  --color-silver-500: #7a7a7a; /* metadatos */
+  --color-silver-600: #5c5c5c;
 
   /* ── Acento violeta ───────────────────────────────────────────────
-     Único color saturado de la marca (reemplaza al ámbar inicial,
-     decisión 2 sep 2026). Uso deliberadamente escaso: CTA principal,
-     cifras/keywords destacadas y el isotipo — nunca como color de
-     fondo grande ni para bloques de texto largo. */
-  --color-accent-300: #d9bbff; /* hover claro / halos */
-  --color-accent-500: #a855f7; /* acento principal */
-  --color-accent-700: #6d28d9; /* estados activos / texto sobre claro */
+     accent-500 es la marca. accent-300 es la luz (texto sobre oscuro,
+     hover). accent-700 da profundidad en degradados y sirve de violeta
+     sobre fondo claro — el de los PDF.
+
+     Cuidado con el contraste: blanco sobre accent-500 se queda en
+     3,96:1. Sobre accent-500 el texto va oscuro (ink-950, 4,84:1). */
+  --color-accent-300: #d9bbff;
+  --color-accent-500: #a855f7;
+  --color-accent-700: #6d28d9;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
   scroll-behavior: smooth;
-  /* Evita el desbordamiento lateral en pantallas angostas */
   overflow-x: hidden;
-  /* Impide que iOS agrande el texto al rotar el dispositivo */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -49,11 +69,40 @@ body {
   color: var(--color-silver-100);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ── Textura de grano ───────────────────────────────────────────────
-   Una capa de ruido muy tenue sobre todo el sitio. Es lo que evita que
-   los fondos planos se vean "digitales" y da sensación de material. */
+::selection {
+  background: var(--color-accent-500);
+  color: var(--color-ink-950);
+}
+
+/* ── Ejes tipográficos ─────────────────────────────────────────────
+   `font-stretch` en porcentaje mapea al eje `wdth` de la variable, y a
+   diferencia de `font-variation-settings` no pisa el peso. */
+.display {
+  font-stretch: 118%;
+  letter-spacing: -0.02em;
+}
+
+.display-tight {
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
+}
+
+/* Etiqueta de datos: mono, versalitas anchas. Es la voz del instrumento
+   — altitudes, cifras, estados. Nunca para prosa. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ── Grano ─────────────────────────────────────────────────────────
+   Ruido tenue sobre todo el sitio: es lo que evita que los planos
+   oscuros se vean digitales y da sensación de material impreso. */
 body::before {
   content: '';
   position: fixed;
@@ -64,68 +113,86 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ── Retícula de fondo ──────────────────────────────────────────────
-   Cuadrícula técnica muy sutil, como papel milimetrado de ingeniería. */
-.grid-backdrop {
+/* ── Curvas de nivel ───────────────────────────────────────────────
+   Sustituyen a la cuadrícula de papel milimetrado, que es el fondo por
+   defecto de cualquier página técnica. Dos sistemas de anillos
+   concéntricos descentrados leen como un mapa topográfico: la textura
+   propia de esta marca, no la de todas. */
+.topo {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.022) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.022) 1px, transparent 1px);
-  background-size: 64px 64px;
+    repeating-radial-gradient(
+      ellipse 60% 44% at 18% 30%,
+      transparent 0 30px,
+      rgb(255 255 255 / 0.021) 30px 31px
+    ),
+    repeating-radial-gradient(
+      ellipse 52% 66% at 82% 72%,
+      transparent 0 36px,
+      rgb(255 255 255 / 0.016) 36px 37px
+    );
 }
 
-/* Difumina la retícula hacia los bordes para que no se corte en seco. */
-.grid-fade {
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+/* Curvas con la cumbre encendida: el anillo interior tira a violeta. */
+.topo-lit {
+  background-image:
+    repeating-radial-gradient(
+      ellipse 46% 40% at 72% 26%,
+      transparent 0 26px,
+      rgb(168 85 247 / 0.07) 26px 27px
+    ),
+    repeating-radial-gradient(
+      ellipse 60% 44% at 18% 30%,
+      transparent 0 30px,
+      rgb(255 255 255 / 0.021) 30px 31px
+    );
 }
 
-/* ── Línea divisoria con brillo central ────────────────────────────*/
-.divider-glow {
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--color-ink-500) 25%,
-    var(--color-ink-500) 75%,
-    transparent
+/* Difumina cualquier textura hacia los bordes para que no se corte. */
+.fade-edges {
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 40%, #000 35%, transparent 100%);
+}
+
+/* ── Luz violeta ───────────────────────────────────────────────────
+   El halo que sale de la marca. Es la única fuente de color saturado
+   grande de la página, y siempre está detrás del contenido. */
+.glow-mark {
+  background: radial-gradient(
+    circle at center,
+    rgb(168 85 247 / 0.22),
+    rgb(109 40 217 / 0.09) 42%,
+    transparent 70%
   );
 }
 
-/* ── Marcas de esquina en tarjetas ─────────────────────────────────
-   Pequeños ángulos que aparecen al pasar el cursor: refuerzan el
-   lenguaje de "planos técnicos" sin añadir color. */
-.corner-marks::before,
-.corner-marks::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.corner-marks::before {
-  top: 14px;
-  left: 14px;
-  border-top: 1px solid var(--color-silver-500);
-  border-left: 1px solid var(--color-silver-500);
-}
-.corner-marks::after {
-  bottom: 14px;
-  right: 14px;
-  border-bottom: 1px solid var(--color-silver-500);
-  border-right: 1px solid var(--color-silver-500);
-}
-.corner-marks:hover::before,
-.corner-marks:hover::after {
-  opacity: 1;
+.glow-horizon {
+  background: radial-gradient(
+    ellipse 70% 100% at 50% 100%,
+    rgb(168 85 247 / 0.13),
+    rgb(109 40 217 / 0.05) 45%,
+    transparent 75%
+  );
 }
 
-/* ── Barra de progreso de lectura ──────────────────────────────────*/
+/* ── Línea de ruta ─────────────────────────────────────────────────
+   El elemento firma: la traza que asciende por la metodología. El
+   relleno arranca a cero y crece con el scroll; sin JS o con
+   movimiento reducido se queda completo (ver el bloque del final). */
+.route-fill {
+  background: linear-gradient(
+    var(--route-direction, to right),
+    var(--color-accent-700),
+    var(--color-accent-500) 55%,
+    var(--color-accent-300)
+  );
+}
+
+/* ── Barra de avance de lectura ────────────────────────────────────*/
 .scroll-progress {
   transform-origin: 0 50%;
   transform: scaleX(0);
 }
 
-/* ── Terminal del hero ─────────────────────────────────────────────*/
+/* ── Terminal ──────────────────────────────────────────────────────*/
 @keyframes line-in {
   from {
     opacity: 0;
@@ -159,50 +226,6 @@ body::before {
     cursor-blink 1.1s step-end infinite;
 }
 
-/* Barrido de luz que recorre la terminal, como un escaneo. */
-@keyframes sheen {
-  0% {
-    transform: translateX(-120%);
-  }
-  100% {
-    transform: translateX(220%);
-  }
-}
-
-.sheen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    100deg,
-    transparent 35%,
-    rgb(255 255 255 / 0.05) 50%,
-    transparent 65%
-  );
-  animation: sheen 7s ease-in-out infinite;
-  animation-delay: 3s;
-}
-
-/* ── Cinta deslizante ──────────────────────────────────────────────*/
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  animation: marquee 38s linear infinite;
-  will-change: transform;
-}
-
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-}
-
 /* ── Menú móvil ────────────────────────────────────────────────────*/
 @keyframes menu-in {
   from {
@@ -218,11 +241,24 @@ body::before {
 .menu-panel:not([hidden]) {
   display: block;
   animation: menu-in 0.25s ease-out;
-  /* En pantallas bajas (teléfono horizontal) el panel se desplaza
-     en lugar de salirse de la vista. 4rem = alto de la barra. */
+  /* En teléfono horizontal el panel se desplaza en vez de salirse de la
+     vista. 4rem = alto de la barra. */
   max-height: calc(100dvh - 4rem);
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+/* ── Acordeón ──────────────────────────────────────────────────────*/
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ── Foco visible ──────────────────────────────────────────────────
+   Un único estilo de foco en toda la página, en violeta claro, que
+   contrasta 11:1 contra cualquiera de los fondos ink. */
+:focus-visible {
+  outline: 2px solid var(--color-accent-300);
+  outline-offset: 2px;
 }
 
 /* ── Accesibilidad: menos movimiento ───────────────────────────────*/
@@ -237,8 +273,8 @@ body::before {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    /* El retardo también: sin esto, una animación con `fill: both` mantiene
-       su estado inicial durante toda la espera y el contenido queda
+    /* El retardo también: sin esto una animación con `fill: both` mantiene
+       su estado inicial durante toda la espera y el contenido se queda
        invisible (las líneas de la terminal llegaban a 3,2 s ocultas). */
     animation-delay: 0s !important;
     transition-delay: 0s !important;
@@ -246,10 +282,5 @@ body::before {
 
   .terminal-line {
     opacity: 1;
-  }
-
-  .marquee-track,
-  .sheen::after {
-    animation: none;
   }
 }
