@@ -77,12 +77,11 @@ jobs:
             git reset --hard '$GITHUB_SHA'
             git --no-pager log -1 --oneline" </dev/null
 
-      - name: Actualizar el backend y reiniciar
-        run: |
-          ssh produccion "set -euo pipefail
-            cd '$DEPLOY_PATH'
-            SKIP_GIT=1 SKIP_FRONTEND=1 ./deploy/deploy.sh" </dev/null
-
+      # La web va antes que el backend a propósito: es estática y no depende de
+      # la API, así que una caída de la base de datos no debe impedir publicar
+      # la landing. El precio es una ventana de segundos en la que el frontend
+      # es nuevo y el backend todavía el anterior.
+      #
       # El build viaja a una carpeta aparte y se cambia de sitio al final: el
       # servidor nunca sirve un `dist/` a medio escribir.
       - name: Publicar el frontend
@@ -94,6 +93,12 @@ jobs:
             if [ -d dist ]; then mv dist dist.anterior; fi
             mv dist.incoming dist
             rm -rf dist.anterior" </dev/null
+
+      - name: Actualizar el backend y reiniciar
+        run: |
+          ssh produccion "set -euo pipefail
+            cd '$DEPLOY_PATH'
+            SKIP_GIT=1 SKIP_FRONTEND=1 ./deploy/deploy.sh" </dev/null
 
       # Prueba de humo desde fuera: si esto pasa, el visitante ve la página.
       - name: Comprobar que el sitio responde

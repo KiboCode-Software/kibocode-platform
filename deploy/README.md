@@ -162,10 +162,14 @@ tiene que entrar por SSH.
 ```
 push a main → runner de GitHub compila el frontend
             → ssh: git reset --hard <commit>
-            → ssh: deploy.sh (migra, estáticos, reinicia gunicorn, recarga nginx)
             → rsync del dist/ ya compilado
+            → ssh: deploy.sh (migra, estáticos, reinicia gunicorn, recarga nginx)
             → curl a /, /en, /privacidad y /api/auth/health/
 ```
+
+La web se publica **antes** que el backend porque es estática y no depende de
+la API: si la base de datos está caída, la landing igual se actualiza y el job
+falla después, en el paso del backend, que es donde está el problema real.
 
 El build corre en el runner y no en el EC2 porque la instancia está compartida
 con otros servicios y `npm ci` es lo que más memoria y disco consume. El
