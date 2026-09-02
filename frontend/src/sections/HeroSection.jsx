@@ -66,10 +66,10 @@ export function HeroSection() {
                 {/* Filo superior que se enciende al pasar el cursor */}
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-silver-300 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+                  className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-accent-500 to-transparent transition-transform duration-500 group-hover:scale-x-100"
                 />
                 <dt className="sr-only">{stat.label}</dt>
-                <dd className="text-2xl font-bold tracking-tight text-silver-50 sm:text-3xl">
+                <dd className="text-2xl font-bold tracking-tight text-accent-300 sm:text-3xl">
                   <Counter value={stat.value} />
                 </dd>
                 <p className="mt-2 text-xs leading-snug text-silver-500 sm:text-sm">

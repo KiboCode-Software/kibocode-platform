@@ -32,7 +32,7 @@ export function TerminalCard({ prompt, lines }) {
           </p>
         ))}
         <span
-          className="terminal-line mt-1 inline-block h-3.5 w-1.5 animate-cursor bg-silver-100 sm:h-4 sm:w-2"
+          className="terminal-line mt-1 inline-block h-3.5 w-1.5 animate-cursor bg-accent-500 sm:h-4 sm:w-2"
           style={{ animationDelay: `${700 + lines.length * 500}ms` }}
         />
       </div>

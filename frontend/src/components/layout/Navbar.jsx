@@ -46,7 +46,7 @@ export function Navbar() {
               {/* Subrayado que crece desde la izquierda al pasar el cursor */}
               <span
                 aria-hidden="true"
-                className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-silver-300 transition-transform duration-300 group-hover:scale-x-100"
+                className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent-500 transition-transform duration-300 group-hover:scale-x-100"
               />
             </a>
           ))}

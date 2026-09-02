@@ -25,6 +25,15 @@
   --color-silver-400: #a0a0a0; /* texto secundario */
   --color-silver-500: #7a7a7a; /* texto terciario / metadatos */
   --color-silver-600: #5c5c5c; /* apoyos muy tenues */
+
+  /* ── Acento violeta ───────────────────────────────────────────────
+     Único color saturado de la marca (reemplaza al ámbar inicial,
+     decisión 2 sep 2026). Uso deliberadamente escaso: CTA principal,
+     cifras/keywords destacadas y el isotipo — nunca como color de
+     fondo grande ni para bloques de texto largo. */
+  --color-accent-300: #d9bbff; /* hover claro / halos */
+  --color-accent-500: #a855f7; /* acento principal */
+  --color-accent-700: #6d28d9; /* estados activos / texto sobre claro */
 }
 
 html {
