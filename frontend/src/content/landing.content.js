@@ -225,7 +225,7 @@ export const contactContent = {
 
   submitLabel: 'Enviar por WhatsApp',
   preferenceForm: '¿Prefieres saltarte el formulario?',
-  whatsappLabel: 'O escríbenos directo por WhatsApp Business',
+  whatsappLabel: 'Escríbenos directo por WhatsApp Business',
   scheduleLabel: 'O agenda una llamada de 30 minutos',
   replyNote: 'Te respondemos en menos de 24 horas hábiles.',
   successMessage:

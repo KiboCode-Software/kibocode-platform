@@ -223,6 +223,6 @@ export const contactContent = {
   preferenceForm: 'Prefer to skip the form?',
   replyNote: 'We reply within 24 business hours.',
   scheduleLabel: 'Or book a 30-minute call',
-  whatsappLabel: 'Or message us directly on WhatsApp Business',
+  whatsappLabel: 'Message us directly on WhatsApp Business',
   successMessage: 'WhatsApp is open with your message ready — just hit send.',
 };
