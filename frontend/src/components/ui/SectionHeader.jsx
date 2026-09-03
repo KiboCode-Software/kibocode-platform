@@ -1,14 +1,29 @@
 import { Reveal } from '../motion/Reveal.jsx';
+import { gsap } from '../../lib/gsap.js';
+import { useGsapContext } from '../../hooks/useGsap.js';
 
 /**
  * Cabecera de sección.
  *
- * El cuadrado violeta del antetítulo es el marcador de posición de la ruta:
- * el mismo que aparece sobre la traza de la metodología. Es lo que enlaza
- * visualmente todas las secciones sin repetir un adorno distinto en cada una.
+ * El cuadrado violeta y el guion que sale de él son el marcador de posición
+ * de la ruta: los mismos que aparecen sobre la traza de la metodología. El
+ * guion se dibuja al entrar la sección, así que cada cabecera repite en
+ * pequeño el gesto del elemento firma en vez de estrenar un adorno propio.
  */
 export function SectionHeader({ eyebrow, title, subtitle, align = 'left' }) {
   const centered = align === 'center';
+
+  const scope = useGsapContext(() => {
+    const guion = scope.current?.querySelector('[data-guion]');
+    if (!guion) return;
+
+    gsap.from(guion, {
+      scaleX: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: scope.current, start: 'top 88%', once: true },
+    });
+  }, [eyebrow]);
 
   return (
     <Reveal
@@ -18,11 +33,17 @@ export function SectionHeader({ eyebrow, title, subtitle, align = 'left' }) {
     >
       {eyebrow && (
         <p
+          ref={scope}
           className={`label mb-6 flex items-center gap-3 text-silver-400 ${centered ? 'justify-center' : ''}`}
         >
           <span
             aria-hidden="true"
             className="h-1.5 w-1.5 shrink-0 bg-accent-500"
+          />
+          <span
+            data-guion
+            aria-hidden="true"
+            className="h-px w-5 shrink-0 origin-left bg-accent-500/60"
           />
           {eyebrow}
         </p>

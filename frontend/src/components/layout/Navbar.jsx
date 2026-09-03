@@ -3,12 +3,14 @@ import { Container } from '../ui/Container.jsx';
 import { ScrollProgress } from '../motion/ScrollProgress.jsx';
 import { Logo } from '../ui/Logo.jsx';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher.jsx';
+import { useActiveSection } from '../../hooks/useActiveSection.js';
 import { useContent, useLanguage } from '../../i18n/LanguageContext.jsx';
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const { navLinks } = useContent();
   const { config } = useLanguage();
+  const activo = useActiveSection(navLinks.map((link) => link.href));
 
   // Bloquea el scroll del fondo mientras el menú móvil está abierto
   useEffect(() => {
@@ -40,13 +42,21 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="group relative flex items-center text-sm text-silver-400 transition-colors duration-300 hover:text-silver-50"
+              aria-current={link.href === activo ? 'true' : undefined}
+              className={`group relative flex items-center text-sm transition-colors duration-300 hover:text-silver-50 ${
+                link.href === activo ? 'text-silver-50' : 'text-silver-400'
+              }`}
             >
-              {/* El mismo cuadrado violeta que marca cada sección: al pasar
-                  el cursor, el enlace se señala como un punto de la ruta. */}
+              {/* El mismo cuadrado violeta que abre cada sección. Se enciende
+                  al pasar el cursor y se queda encendido en la sección que
+                  se está leyendo: dice dónde estás, no solo dónde apuntas. */}
               <span
                 aria-hidden="true"
-                className="absolute -left-3 h-1 w-1 -translate-x-1 bg-accent-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                className={`absolute -left-3 h-1 w-1 bg-accent-500 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 ${
+                  link.href === activo
+                    ? 'translate-x-0 opacity-100'
+                    : '-translate-x-1 opacity-0'
+                }`}
               />
               {link.label}
             </a>
@@ -96,9 +106,17 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 border-b border-ink-800 py-4 text-base text-silver-300 transition-colors duration-200 last:border-b-0 hover:text-silver-50"
+              aria-current={link.href === activo ? 'true' : undefined}
+              className={`flex items-center gap-3 border-b border-ink-800 py-4 text-base transition-colors duration-200 last:border-b-0 hover:text-silver-50 ${
+                link.href === activo ? 'text-silver-50' : 'text-silver-300'
+              }`}
             >
-              <span aria-hidden="true" className="h-1 w-1 shrink-0 bg-accent-500" />
+              <span
+                aria-hidden="true"
+                className={`h-1 w-1 shrink-0 transition-colors duration-300 ${
+                  link.href === activo ? 'bg-accent-500' : 'bg-ink-500'
+                }`}
+              />
               {link.label}
             </a>
           ))}

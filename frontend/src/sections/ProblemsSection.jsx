@@ -1,6 +1,6 @@
 import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
-import { Reveal } from '../components/motion/Reveal.jsx';
+import { Reveal, RevealWords } from '../components/motion/Reveal.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
 /**
@@ -40,11 +40,12 @@ export function ProblemsSection() {
         ))}
       </Reveal>
 
-      <Reveal delay={0.1}>
-        <p className="display-tight mt-14 max-w-4xl border-l-2 border-accent-500 pl-6 text-lg font-medium leading-snug text-silver-100 md:mt-16 md:pl-8 md:text-2xl">
-          {closing}
-        </p>
-      </Reveal>
+      {/* El cierre es la conclusión del diagnóstico, así que entra palabra a
+          palabra en vez de aparecer de golpe: es el mismo gesto del titular
+          de la portada, reservado para las dos frases que rematan algo. */}
+      <p className="display-tight mt-14 max-w-4xl border-l-2 border-accent-500 pl-6 text-lg font-medium leading-snug text-silver-100 md:mt-16 md:pl-8 md:text-2xl">
+        <RevealWords text={closing} delay={0.05} />
+      </p>
     </Section>
   );
 }

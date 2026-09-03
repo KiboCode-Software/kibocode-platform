@@ -6,6 +6,9 @@ import { Counter } from '../components/motion/Counter.jsx';
 import { Parallax } from '../components/motion/Parallax.jsx';
 import { PointerLight } from '../components/motion/PointerLight.jsx';
 import { Plane } from '../components/motion/Plane.jsx';
+import { RouteLine } from '../components/motion/RouteLine.jsx';
+import { gsap } from '../lib/gsap.js';
+import { useGsapContext } from '../hooks/useGsap.js';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
 /**
@@ -23,6 +26,19 @@ export function HeroSection() {
   const { heroContent } = useContent();
   const { title, subtitle, primaryCta, secondaryCta, terminal, stats } =
     heroContent;
+
+  // Las cifras arrancan en gris y suben a violeta mientras el contador las
+  // recorre. El marcado las pinta ya en violeta: si no hay animación, se ven
+  // encendidas, que es el estado que importa.
+  const panel = useGsapContext(() => {
+    gsap.from(panel.current.querySelectorAll('[data-cifra]'), {
+      color: '#3a3a3a',
+      duration: 1.6,
+      ease: 'power2.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: panel.current, start: 'top 92%', once: true },
+    });
+  });
 
   return (
     <section className="relative overflow-hidden bg-ink-950 pt-16">
@@ -95,8 +111,11 @@ export function HeroSection() {
       </Container>
 
       {/* Fila de instrumentos: la medición de lo que acaba de desplegarse.
-          Sin cajas — solo filetes, como la lectura de un panel. */}
-      <div className="relative border-t border-ink-800 bg-ink-1000/50">
+          Sin cajas — solo filetes, como la lectura de un panel. La traza
+          violeta lo recorre al entrar, y las cifras suben de gris apagado a
+          violeta mientras cuentan: el panel se enciende, no aparece hecho. */}
+      <div ref={panel} className="relative border-t border-ink-800 bg-ink-1000/50">
+        <RouteLine axis="horizontal" className="absolute inset-x-0 top-0" />
         <Container>
           <Reveal as="dl" stagger={0.08} className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((stat, index) => (
@@ -111,7 +130,10 @@ export function HeroSection() {
                 }`}
               >
                 <dt className="sr-only">{stat.label}</dt>
-                <dd className="display text-3xl font-semibold text-accent-300 sm:text-4xl md:text-[2.75rem]">
+                <dd
+                  data-cifra
+                  className="display text-3xl font-semibold text-accent-300 sm:text-4xl md:text-[2.75rem]"
+                >
                   <Counter value={stat.value} />
                 </dd>
                 <p className="mt-3 max-w-[24ch] text-xs leading-snug text-silver-400 sm:text-sm">
