@@ -1,6 +1,7 @@
 import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
+import { Watermark } from '../components/ui/Watermark.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
 /**
@@ -16,7 +17,8 @@ export function ValuePropsSection() {
   const { id, eyebrow, title, items } = valuePropsContent;
 
   return (
-    <Section id={id} tone="panel">
+    <Section id={id} tone="panel" texture="trama">
+      <Watermark side="left" />
       <SectionHeader eyebrow={eyebrow} title={title} />
 
       {items.map((item, index) => (

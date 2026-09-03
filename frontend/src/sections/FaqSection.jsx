@@ -16,7 +16,7 @@ export function FaqSection() {
   const { id, eyebrow, title, items } = faqContent;
 
   return (
-    <Section id={id} tone="ground">
+    <Section id={id} tone="ground" texture="topo">
       <SectionHeader eyebrow={eyebrow} title={title} />
 
       <Reveal stagger={0.06} className="max-w-4xl">

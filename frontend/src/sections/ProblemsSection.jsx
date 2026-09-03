@@ -16,7 +16,7 @@ export function ProblemsSection() {
   const { id, eyebrow, title, items, closing } = problemsContent;
 
   return (
-    <Section id={id} tone="raised" texture>
+    <Section id={id} tone="raised" texture="topo">
       <SectionHeader eyebrow={eyebrow} title={title} />
 
       {/* Entran desde lados opuestos: los síntomas llegan de todas partes

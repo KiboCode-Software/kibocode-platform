@@ -2,6 +2,7 @@ import { Section } from '../components/layout/Section.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
 import { Plane } from '../components/motion/Plane.jsx';
+import { Watermark } from '../components/ui/Watermark.jsx';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
 /**
@@ -17,7 +18,8 @@ export function ServicesSection() {
   const { id, eyebrow, title, items } = servicesContent;
 
   return (
-    <Section id={id} tone="ground">
+    <Section id={id} tone="ground" texture="malla">
+      <Watermark side="right" />
       <SectionHeader eyebrow={eyebrow} title={title} />
 
       <Reveal stagger={0.1} className="grid gap-6 lg:grid-cols-3 lg:gap-7">
