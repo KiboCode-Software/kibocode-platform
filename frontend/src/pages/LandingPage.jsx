@@ -1,5 +1,6 @@
 import { Navbar } from '../components/layout/Navbar.jsx';
 import { Footer } from '../components/layout/Footer.jsx';
+import { AuroraField } from '../components/motion/AuroraField.jsx';
 import { HeroSection } from '../sections/HeroSection.jsx';
 import { ProblemsSection } from '../sections/ProblemsSection.jsx';
 import { ServicesSection } from '../sections/ServicesSection.jsx';
@@ -11,6 +12,9 @@ import { ContactSection } from '../sections/ContactSection.jsx';
 export function LandingPage() {
   return (
     <>
+      {/* Una sola atmósfera detrás de toda la página. Las secciones son
+          translúcidas para que la luz las atraviese. */}
+      <AuroraField />
       <Navbar />
       <main>
         <HeroSection />

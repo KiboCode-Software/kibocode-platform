@@ -19,12 +19,15 @@ export function ValuePropsSection() {
     <Section id={id} tone="panel">
       <SectionHeader eyebrow={eyebrow} title={title} />
 
-      <Reveal stagger={0.1}>
-        {items.map((item) => (
-          <article
-            key={item.title}
-            className="group relative grid gap-4 border-t border-ink-600 py-9 md:py-12 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16"
-          >
+      {items.map((item, index) => (
+        <Reveal
+          key={item.title}
+          as="article"
+          x={140}
+          rotate={2}
+          delay={index * 0.1}
+          className="group relative grid gap-4 border-t border-ink-600 py-9 md:py-12 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16"
+        >
             <span
               aria-hidden="true"
               className="route-fill absolute inset-x-0 top-0 h-px origin-left scale-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
@@ -34,12 +37,11 @@ export function ValuePropsSection() {
               {item.title}
             </h3>
 
-            <p className="max-w-2xl text-sm leading-relaxed text-silver-400 md:text-base">
-              {item.description}
-            </p>
-          </article>
-        ))}
-      </Reveal>
+          <p className="max-w-2xl text-sm leading-relaxed text-silver-400 md:text-base">
+            {item.description}
+          </p>
+        </Reveal>
+      ))}
     </Section>
   );
 }

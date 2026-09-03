@@ -60,7 +60,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* `clip` y no `hidden`: los dos cortan el desbordamiento lateral, pero
+     `hidden` convierte al elemento en contenedor de scroll y eso rompe el
+     anclaje de la travesía horizontal. `hidden` queda de respaldo para los
+     navegadores que aún no entienden `clip`. */
   overflow-x: hidden;
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
 

@@ -10,10 +10,13 @@ import { Parallax } from '../motion/Parallax.jsx';
  *
  * `scroll-mt` compensa la altura de la barra fija al saltar por anclas.
  */
+/* Translúcidos a propósito: el campo de luz violeta va fijo detrás de toda
+   la página y tiene que atravesarlas. Con el fondo opaco cada sección lo
+   tapaba y la atmósfera se cortaba en cada plano. */
 const TONES = {
-  ground: 'bg-ink-950',
-  raised: 'bg-ink-900',
-  panel: 'bg-ink-800',
+  ground: 'bg-ink-950/75',
+  raised: 'bg-ink-900/75',
+  panel: 'bg-ink-800/80',
 };
 
 export function Section({

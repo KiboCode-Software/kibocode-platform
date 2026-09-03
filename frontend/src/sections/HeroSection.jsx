@@ -27,6 +27,36 @@ export function HeroSection() {
   const { title, subtitle, primaryCta, secondaryCta, terminal, stats } =
     heroContent;
 
+  // La marca no se queda quieta: bascula despacio sobre su eje vertical y se
+  // orienta hacia el puntero. Es el objeto que da nombre a la agencia, así
+  // que es el que puede permitirse ser el único elemento con vida propia.
+  const marca = useGsapContext((self, gsapLocal) => {
+    const isotipo = marca.current.querySelector('[data-marca]');
+
+    gsapLocal.to(isotipo, {
+      rotationY: 26,
+      rotationX: -8,
+      duration: 6,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return undefined;
+    }
+
+    const girar = gsapLocal.quickTo(isotipo, 'rotationZ', { duration: 1.2, ease: 'power3' });
+    const seguir = (evento) => {
+      const caja = marca.current.getBoundingClientRect();
+      const dx = evento.clientX - (caja.left + caja.width / 2);
+      girar(Math.max(-14, Math.min(14, dx / 60)));
+    };
+
+    window.addEventListener('pointermove', seguir, { passive: true });
+    return () => window.removeEventListener('pointermove', seguir);
+  });
+
   // Las cifras arrancan en gris y suben a violeta mientras el contador las
   // recorre. El marcado las pinta ya en violeta: si no hay animación, se ven
   // encendidas, que es el estado que importa.
@@ -41,14 +71,22 @@ export function HeroSection() {
   });
 
   return (
-    <section className="relative overflow-hidden bg-ink-950 pt-16">
+    <section className="relative overflow-hidden bg-ink-950/70 pt-16">
       {/* Tres planos a distinta distancia. Las curvas al fondo, casi quietas;
           el halo en medio, respondiendo al puntero; el contenido al frente,
           firme. Es la separación entre ellos lo que da relieve. */}
-      <Parallax pixels={150} className="pointer-events-none absolute inset-0">
+      <Parallax pixels={320} className="pointer-events-none absolute inset-0">
         <div
           aria-hidden="true"
-          className="topo-lit fade-edges absolute inset-x-0 -inset-y-40"
+          className="topo-lit fade-edges absolute inset-x-0 -inset-y-64"
+        />
+      </Parallax>
+      {/* Segunda capa de curvas en sentido contrario: dos sistemas cruzándose
+          leen como terreno con relieve, no como un papel con dibujo. */}
+      <Parallax pixels={-180} className="pointer-events-none absolute inset-0">
+        <div
+          aria-hidden="true"
+          className="topo fade-edges absolute inset-x-0 -inset-y-64 opacity-70"
         />
       </Parallax>
 
@@ -58,17 +96,18 @@ export function HeroSection() {
           altura: el aire real de la portada es este. */}
       <Container className="relative pb-14 pt-8 md:pb-20 md:pt-12 lg:pt-14">
         <Reveal y={12}>
-          <span className="relative inline-block">
+          <span ref={marca} className="perspectiva relative inline-block">
             <span
               aria-hidden="true"
-              className="glow-mark absolute -inset-5 blur-xl"
+              className="glow-mark absolute -inset-8 blur-2xl"
             />
             <img
+              data-marca
               src="/logo-mark.svg"
               alt=""
-              width={80}
-              height={80}
-              className="relative h-16 w-16 md:h-20 md:w-20"
+              width={96}
+              height={96}
+              className="placa relative h-20 w-20 md:h-24 md:w-24"
             />
           </span>
         </Reveal>

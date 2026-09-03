@@ -13,6 +13,8 @@ export function Reveal({
   children,
   delay = 0,
   y = 24,
+  x = 0,
+  rotate = 0,
   stagger = 0,
   className = '',
   as: Tag = 'div',
@@ -25,9 +27,11 @@ export function Reveal({
     gsap.from(targets, {
       opacity: 0,
       y,
-      duration: 0.9,
+      x,
+      rotate,
+      duration: x ? 1.15 : 0.9,
       delay,
-      ease: 'power3.out',
+      ease: x ? 'expo.out' : 'power3.out',
       stagger: stagger || 0,
       scrollTrigger: {
         trigger: root,
@@ -35,7 +39,7 @@ export function Reveal({
         once: true,
       },
     });
-  }, [delay, y, stagger]);
+  }, [delay, y, x, rotate, stagger]);
 
   // El resto de props viaja al elemento: así `Reveal` puede ser el propio
   // `<form onSubmit>` o un `<li>` sin necesitar un envoltorio extra que

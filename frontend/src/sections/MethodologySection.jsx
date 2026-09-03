@@ -1,87 +1,163 @@
-import { Section } from '../components/layout/Section.jsx';
+import { Container } from '../components/ui/Container.jsx';
 import { SectionHeader } from '../components/ui/SectionHeader.jsx';
-import { Reveal } from '../components/motion/Reveal.jsx';
-import { RouteLine } from '../components/motion/RouteLine.jsx';
+import { Parallax } from '../components/motion/Parallax.jsx';
 import { gsap } from '../lib/gsap.js';
 import { useGsapContext } from '../hooks/useGsap.js';
 import { useContent } from '../i18n/LanguageContext.jsx';
 
+const APAGADO = { backgroundColor: '#2c2c2c', scale: 0.5, boxShadow: '0 0 0 0 rgba(168,85,247,0)' };
+const ENCENDIDO = {
+  backgroundColor: '#a855f7',
+  scale: 1,
+  boxShadow: '0 0 18px 3px rgba(168,85,247,0.55)',
+};
+
 /**
- * La metodología, como la ruta de un ascenso.
+ * La metodología, recorrida de lado.
  *
- * Aquí sí hay secuencia — descubrimiento, construcción, despliegue — así
- * que los números 01/02/03 dicen algo verdadero, y la traza violeta que
- * los une se dibuja al bajar por la página. Es el elemento firma del
- * sitio: la marca es una llave apuntando a una cumbre, y esto es la ruta.
+ * Es el ascenso, así que en escritorio deja de ser una lista y pasa a ser
+ * una travesía: la sección se clava en pantalla y los tres campamentos
+ * cruzan de derecha a izquierda mientras bajas. La traza violeta se dibuja
+ * al mismo tiempo y cada campamento se enciende cuando la línea lo alcanza.
  *
- * Los campamentos se encienden en orden conforme la traza los alcanza. Sin
- * eso la línea avanzaba sobre tres marcadores ya encendidos, que es tanto
- * como dibujar una ruta sobre un camino ya recorrido.
+ * Las tres cosas van en una sola línea de tiempo con el mismo scrub, que es
+ * lo único que garantiza que la luz llegue al campamento exactamente cuando
+ * llega la traza. Con tres disparadores sueltos se desincronizan en cuanto
+ * cambia el alto de la ventana.
  *
- * En móvil la traza sube en vertical junto a los pasos; en escritorio los
- * cruza en horizontal.
+ * Por debajo de 1024 px no se clava nada: en un teléfono robar el scroll
+ * vertical es la forma más rápida de que alguien se vaya de la página. Ahí
+ * la travesía se lee en vertical, con la misma traza y los mismos
+ * encendidos.
  */
 export function MethodologySection() {
   const { methodologyContent } = useContent();
   const { id, eyebrow, title, steps } = methodologyContent;
 
-  // El marcado los pinta encendidos y es la animación la que los apaga para
-  // volver a encenderlos: si GSAP no carga o hay movimiento reducido, se ven
-  // los tres campamentos, no tres puntos grises sin explicación.
-  const scope = useGsapContext(() => {
-    const campamentos = scope.current.querySelectorAll('[data-campamento]');
+  const alcance = useGsapContext(() => {
+    const raiz = alcance.current;
+    const pista = raiz.querySelector('[data-pista]');
+    const campamentos = raiz.querySelectorAll('[data-campamento]');
+    const trazaH = raiz.querySelector('[data-traza-h]');
+    const trazaV = raiz.querySelector('[data-traza-v]');
+    const mm = gsap.matchMedia();
 
-    gsap.fromTo(
-      campamentos,
-      { backgroundColor: '#2c2c2c', scale: 0.55, boxShadow: '0 0 0 0 rgba(168,85,247,0)' },
-      {
-        backgroundColor: '#a855f7',
-        scale: 1,
-        boxShadow: '0 0 14px 2px rgba(168,85,247,0.45)',
-        ease: 'none',
-        stagger: 0.5,
+    // ── Escritorio: travesía horizontal con la sección clavada ──────────
+    mm.add('(min-width: 1024px)', () => {
+      const distancia = () => Math.max(pista.scrollWidth - raiz.offsetWidth + 80, 0);
+      const recorrido = () => distancia() * 1.7;
+
+      const linea = gsap.timeline({
         scrollTrigger: {
-          trigger: scope.current,
-          start: 'top 82%',
-          end: 'top 38%',
-          scrub: 0.5,
+          trigger: raiz,
+          start: 'top top',
+          end: () => `+=${recorrido()}`,
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
-      },
-    );
+      });
+
+      // Las tres duraciones tienen que sumar lo mismo. Sin fijarlas, GSAP
+      // le da 0,5 por defecto a cada tween y la más larga —los campamentos
+      // escalonados— estira la línea de tiempo: la pista terminaba su
+      // recorrido al 36% del scroll y el resto de la travesía era una
+      // sección clavada sin nada moviéndose.
+      linea
+        .to(pista, { x: () => -distancia(), ease: 'none', duration: 1 }, 0)
+        .fromTo(trazaH, { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 1 }, 0)
+        .fromTo(
+          campamentos,
+          APAGADO,
+          { ...ENCENDIDO, ease: 'none', duration: 0.25, stagger: 0.375 },
+          0,
+        );
+
+      return () => linea.scrollTrigger?.kill(true);
+    });
+
+    // ── Móvil y tablet: la misma travesía, en vertical ──────────────────
+    mm.add('(max-width: 1023px)', () => {
+      const linea = gsap.timeline({
+        scrollTrigger: {
+          trigger: pista,
+          start: 'top 80%',
+          end: 'bottom 65%',
+          scrub: 0.6,
+        },
+      });
+
+      linea
+        .fromTo(trazaV, { scaleY: 0 }, { scaleY: 1, ease: 'none', duration: 1 }, 0)
+        .fromTo(
+          campamentos,
+          APAGADO,
+          { ...ENCENDIDO, ease: 'none', duration: 0.25, stagger: 0.375 },
+          0,
+        );
+
+      return () => linea.scrollTrigger?.kill(true);
+    });
+
+    return () => mm.revert();
   });
 
   return (
-    <Section id={id} tone="raised" texture>
-      <SectionHeader eyebrow={eyebrow} title={title} />
+    <section
+      ref={alcance}
+      id={id}
+      className="relative overflow-hidden bg-ink-900/75 py-18 md:py-24 lg:flex lg:min-h-screen lg:flex-col lg:justify-center lg:py-0"
+    >
+      <Parallax pixels={140} className="pointer-events-none absolute inset-0">
+        <div aria-hidden="true" className="topo fade-edges absolute inset-x-0 -inset-y-40" />
+      </Parallax>
 
-      <div ref={scope} className="relative">
-        <RouteLine
-          axis="vertical"
-          className="absolute bottom-6 left-[3px] top-2 lg:hidden"
-        />
-        <RouteLine
-          axis="horizontal"
-          className="absolute inset-x-0 top-[3px] hidden lg:block"
-        />
+      <Container className="relative">
+        <SectionHeader eyebrow={eyebrow} title={title} />
+      </Container>
 
-        <ol className="grid gap-12 md:gap-14 lg:grid-cols-3 lg:gap-10">
-          {steps.map((step, index) => (
-            <Reveal
+      {/* La pista sangra hasta el borde derecho: el corte es la promesa de
+          que hay más camino del que cabe en pantalla. */}
+      <div className="relative overflow-hidden">
+        {/* Traza vertical (móvil) */}
+        <div
+          aria-hidden="true"
+          className="absolute bottom-8 left-6 top-2 w-px overflow-hidden bg-ink-700 md:left-10 lg:hidden"
+        >
+          <div
+            data-traza-v
+            className="route-fill h-full w-full origin-top"
+            style={{ '--route-direction': 'to bottom' }}
+          />
+        </div>
+
+        <div
+          data-pista
+          className="relative flex flex-col gap-14 px-6 md:px-10 lg:w-max lg:flex-row lg:items-start lg:gap-20 lg:pr-[28vw]"
+        >
+          {/* Traza horizontal (escritorio), a lo largo de toda la pista */}
+          <div
+            aria-hidden="true"
+            className="absolute left-0 top-1 hidden h-px w-full overflow-hidden bg-ink-700 lg:block"
+          >
+            <div data-traza-h className="route-fill h-full w-full origin-left" />
+          </div>
+
+          {steps.map((step) => (
+            <article
               key={step.number}
-              as="li"
-              delay={index * 0.12}
-              className="relative pl-10 lg:pl-0 lg:pt-14"
+              className="relative pl-10 lg:w-[44vw] lg:max-w-[600px] lg:shrink-0 lg:pl-0 lg:pt-16"
             >
-              {/* Marcador de campamento, sobre la traza */}
               <span
                 data-campamento
                 aria-hidden="true"
-                className="absolute left-0 top-1 h-[7px] w-[7px] bg-accent-500 lg:top-0"
+                className="absolute -left-1 top-1 h-2 w-2 bg-accent-500 lg:left-0 lg:top-0"
               />
 
               <span className="label text-accent-300">{step.number}</span>
 
-              <h3 className="display-tight mt-4 text-xl font-semibold text-silver-50 md:text-2xl">
+              <h3 className="display-tight mt-4 text-xl font-semibold text-silver-50 md:text-2xl lg:text-3xl">
                 {step.title}
               </h3>
 
@@ -92,10 +168,10 @@ export function MethodologySection() {
               <p className="mt-7 border-l border-ink-600 pl-5 text-sm font-medium leading-relaxed text-silver-200">
                 {step.deliverable}
               </p>
-            </Reveal>
+            </article>
           ))}
-        </ol>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

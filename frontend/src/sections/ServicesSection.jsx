@@ -26,9 +26,15 @@ export function ServicesSection() {
             se inclinan hacia el puntero. Seis grados: lo justo para que se
             lea como una superficie con luz encima y no como un truco. */}
         {items.map((service) => (
-          <Plane key={service.title} tilt className="h-full">
+          <Plane key={service.title} tilt max={14} className="h-full">
             <article className="placa placa-brillo group relative flex h-full flex-col border border-ink-700 bg-ink-900 transition-colors duration-500 hover:border-ink-600">
-              <h3 className="display-tight px-7 pt-8 text-xl font-semibold text-silver-50 md:px-8 md:pt-9">
+              {/* El titular flota por delante del plano de la tarjeta: al
+                  inclinarse se separa de lo demás y la profundidad deja de
+                  ser un rectángulo torcido para ser volumen real. */}
+              <h3
+                className="display-tight px-7 pt-8 text-xl font-semibold text-silver-50 md:px-8 md:pt-9"
+                style={{ transform: 'translateZ(55px)' }}
+              >
                 {service.title}
               </h3>
 
@@ -42,7 +48,10 @@ export function ServicesSection() {
               </p>
 
               {/* Nivel encendido: el resultado. */}
-              <p className="mt-auto flex items-start gap-3 border-t border-accent-500/25 bg-accent-500/[0.07] px-7 py-6 text-sm font-medium leading-snug text-accent-300 transition-colors duration-500 group-hover:bg-accent-500/[0.12] md:px-8">
+              <p
+                className="mt-auto flex items-start gap-3 border-t border-accent-500/25 bg-accent-500/[0.07] px-7 py-6 text-sm font-medium leading-snug text-accent-300 transition-colors duration-500 group-hover:bg-accent-500/[0.12] md:px-8"
+                style={{ transform: 'translateZ(28px)' }}
+              >
                 <span
                   aria-hidden="true"
                   className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-accent-500"

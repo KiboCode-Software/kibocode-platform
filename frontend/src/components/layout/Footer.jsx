@@ -8,7 +8,7 @@ export function Footer() {
   const { config } = useLanguage();
 
   return (
-    <footer className="relative border-t border-ink-700 bg-ink-1000 py-12 md:py-14">
+    <footer className="relative border-t border-ink-700 bg-ink-1000/80 py-12 md:py-14">
       <Container>
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <Logo href={config.routes.home} size="sm" />

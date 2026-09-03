@@ -19,10 +19,16 @@ export function ProblemsSection() {
     <Section id={id} tone="raised" texture>
       <SectionHeader eyebrow={eyebrow} title={title} />
 
-      <Reveal stagger={0.08} className="grid gap-x-14 lg:grid-cols-2">
-        {items.map((item) => (
-          <article
+      {/* Entran desde lados opuestos: los síntomas llegan de todas partes
+          a la vez, no en fila india. */}
+      <div className="grid gap-x-14 lg:grid-cols-2">
+        {items.map((item, index) => (
+          <Reveal
             key={item.title}
+            as="article"
+            x={index % 2 === 0 ? -120 : 120}
+            rotate={index % 2 === 0 ? -1.5 : 1.5}
+            delay={index * 0.06}
             className="group relative border-t border-ink-700 py-8 md:py-10"
           >
             {/* Filo violeta que se dibuja sobre el filete al pasar el cursor */}
@@ -36,9 +42,9 @@ export function ProblemsSection() {
             <p className="mt-4 max-w-lg text-sm leading-relaxed text-silver-400 md:text-[15px]">
               {item.description}
             </p>
-          </article>
+          </Reveal>
         ))}
-      </Reveal>
+      </div>
 
       {/* El cierre es la conclusión del diagnóstico, así que entra palabra a
           palabra en vez de aparecer de golpe: es el mismo gesto del titular
