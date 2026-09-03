@@ -33,11 +33,14 @@ export function Button({
 /**
  * Enlace con flecha que avanza al pasar el cursor. Para las acciones
  * secundarias que no merecen el peso de un botón.
+ *
+ * `py-3` no es aire decorativo: sin él la zona pulsable medía 20 px de alto
+ * y en un teléfono había que apuntar. El mínimo cómodo son 44.
  */
 export function ArrowLink({ children, className = '', ...props }) {
   return (
     <a
-      className={`group/link inline-flex items-center gap-2 text-sm text-silver-300 transition-colors duration-300 hover:text-accent-300 ${className}`}
+      className={`group/link inline-flex min-h-[44px] items-center gap-2 py-3 text-sm text-silver-300 transition-colors duration-300 hover:text-accent-300 ${className}`}
       {...props}
     >
       {children}

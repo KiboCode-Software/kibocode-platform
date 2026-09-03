@@ -298,6 +298,15 @@ body::before {
   animation: latido 2.2s ease-in-out infinite;
 }
 
+/* La casilla mide 20 px porque a más grande desequilibra la línea de
+   texto, pero 20 px es imposible de acertar con el dedo. El pseudoelemento
+   agranda la zona pulsable hasta 44 sin mover nada de sitio. */
+.casilla::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+}
+
 /* Onda expansiva al enviar: sale del botón y recorre el panel. */
 @keyframes onda {
   from {
@@ -312,6 +321,17 @@ body::before {
 
 .onda {
   animation: onda 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Rendimiento en pantallas pequeñas ─────────────────────────────
+   El desenfoque del campo de luz es, con diferencia, lo más caro que
+   pinta la página, y su coste crece con el radio y con el área. En un
+   teléfono se recorta: el degradado ya cae solo, así que se nota poco a
+   la vista y mucho por fotograma. */
+@media (max-width: 767px) {
+  .aurora-foco {
+    filter: blur(52px);
+  }
 }
 
 /* ── Barra de avance de lectura ────────────────────────────────────*/

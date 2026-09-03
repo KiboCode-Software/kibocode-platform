@@ -11,18 +11,18 @@ export function Footer() {
     <footer className="relative border-t border-ink-700 bg-ink-1000/80 py-12 md:py-14">
       <Container>
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <Logo href={config.routes.home} size="sm" />
+          <Logo href={config.routes.home} size="sm" className="min-h-[44px] py-2" />
 
           <nav className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-8">
             <a
               href={config.routes.privacy}
-              className="py-2 text-sm text-silver-400 transition-colors duration-200 hover:text-accent-300"
+              className="inline-flex min-h-[44px] items-center py-3 text-sm text-silver-400 transition-colors duration-200 hover:text-accent-300"
             >
               {footerContent.privacy}
             </a>
             <a
               href={`mailto:${siteConfig.contactEmail}`}
-              className="py-2 text-sm text-silver-400 transition-colors duration-200 hover:text-accent-300"
+              className="inline-flex min-h-[44px] items-center py-3 text-sm text-silver-400 transition-colors duration-200 hover:text-accent-300"
             >
               {siteConfig.contactEmail}
             </a>

@@ -36,7 +36,7 @@ export function LanguageSwitcher({ className = '', onNavigate }) {
                 setPreferredLanguage(code);
                 onNavigate?.();
               }}
-              className={`label px-1 py-2 transition-colors duration-200 ${
+              className={`label flex min-h-[44px] items-center px-2 py-3 transition-colors duration-200 ${
                 activo ? 'text-accent-300' : 'text-silver-400 hover:text-silver-100'
               }`}
             >

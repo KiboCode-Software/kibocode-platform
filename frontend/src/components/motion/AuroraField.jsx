@@ -90,7 +90,7 @@ export function AuroraField() {
         <span
           key={foco.clase}
           data-foco
-          className={`absolute rounded-full blur-[90px] md:blur-[130px] ${foco.clase}`}
+          className={`aurora-foco absolute rounded-full blur-[90px] md:blur-[130px] ${foco.clase}`}
           style={{
             background: `radial-gradient(circle at center, ${foco.color}, transparent 68%)`,
           }}
