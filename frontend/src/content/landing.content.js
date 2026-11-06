@@ -7,6 +7,7 @@
  */
 export const navLinks = [
   { label: 'Servicios', href: '#servicios' },
+  { label: 'Proyectos', href: '#proyectos' },
   { label: 'Metodología', href: '#metodologia' },
   { label: 'Por qué KiboCode', href: '#diferenciacion' },
   { label: 'FAQ', href: '#faq' },
@@ -103,6 +104,24 @@ export const servicesContent = {
       result: 'Decisiones con datos del día, no del mes pasado.',
     },
   ],
+};
+
+export const projectsContent = {
+  id: 'proyectos',
+  eyebrow: 'Trabajo realizado',
+  title: 'Software propio, hecho para resolver el día a día.',
+  subtitle: 'Una muestra de lo que construimos en KiboCode: productos útiles, cuidados y listos para usarse.',
+  project: {
+    name: 'Núcleo',
+    category: 'Aplicación de escritorio · Windows',
+    description:
+      'Una app para organizar la jornada de trabajo o estudio. Reúne tareas, entregas, bloques de enfoque y herramientas para que todo avance desde un solo lugar.',
+    features: ['Trabajo y estudio', 'Funciona sin conexión', 'Datos guardados en tu equipo'],
+    image: 'https://nucleo.kibocode.lat/assets/shots/entregas-1200.webp',
+    imageAlt: 'Núcleo organiza las próximas entregas y la semana en una línea de tiempo.',
+    url: 'https://nucleo.kibocode.lat',
+    linkLabel: 'Conocer Núcleo',
+  },
 };
 
 export const methodologyContent = {

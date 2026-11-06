@@ -4,6 +4,7 @@ import { AuroraField } from '../components/motion/AuroraField.jsx';
 import { HeroSection } from '../sections/HeroSection.jsx';
 import { ProblemsSection } from '../sections/ProblemsSection.jsx';
 import { ServicesSection } from '../sections/ServicesSection.jsx';
+import { ProjectsSection } from '../sections/ProjectsSection.jsx';
 import { MethodologySection } from '../sections/MethodologySection.jsx';
 import { ValuePropsSection } from '../sections/ValuePropsSection.jsx';
 import { FaqSection } from '../sections/FaqSection.jsx';
@@ -20,6 +21,7 @@ export function LandingPage() {
         <HeroSection />
         <ProblemsSection />
         <ServicesSection />
+        <ProjectsSection />
         <MethodologySection />
         <ValuePropsSection />
         <FaqSection />
